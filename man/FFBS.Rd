@@ -4,10 +4,10 @@
 \alias{FFBS}
 \title{Sample Global Mean Parameter via FFBS}
 \usage{
-FFBS(lambda_list, tau, m0, s0, delta)
+FFBS(lambda_mat, tau, m0 = 0, s0 = 0.25, delta = 0.5)
 }
 \arguments{
-\item{lambda_list}{A list of time-specific mean parameter.}
+\item{lambda_mat}{A list of time-specific mean parameter.}
 
 \item{tau}{A variance parameter of the emission model.}
 
@@ -43,7 +43,7 @@ for (i in 1:n_tenure) {
 }
 
 # fit 
-lambda_fit <- FFBS(lambda_list, tau = tau, m0 = 0, s0 = 0.5^2, delta = delta)
+lambda_fit <- FFBS(do.call(cbind, lambda_list), tau = tau, m0 = 0, s0 = 0.5^2, delta = delta)
 
 # plot 
 plot(lambda, type = 'o', pch = 16, ylim = c(-3, 4))

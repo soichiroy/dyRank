@@ -1,14 +1,21 @@
 Package: dyRank
-Title: What the Package Does (One Line, Title Case)
+Title: Hierarchical Dynamic Ranking 
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Soichiro",
            family = "Yamauchi",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "syamauchi@g.harvard.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: Estimate dynamic rating based on partially ranked data with time-stamp.
+Description: Estimate dynamic rating based on multiple ranked data.
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+LinkingTo: 
+    Rcpp,
+    RcppArmadillo
+Imports: 
+    Rcpp
+Depends:
+    pgdraw

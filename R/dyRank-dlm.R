@@ -8,7 +8,7 @@
 #' Sample Global Mean Parameter via FFBS
 #'
 #' @keywords internal 
-#' @param lambda_list A list of time-specific mean parameter. 
+#' @param lambda_mat A list of time-specific mean parameter. 
 #' @param tau A variance parameter of the emission model. 
 #' @param m0 Mean parameter of the initial condition. 
 #' @param s0 Variance parameter of the initial condition.
@@ -35,18 +35,18 @@
 #' }
 #' 
 #' # fit 
-#' lambda_fit <- FFBS(lambda_list, tau = tau, m0 = 0, s0 = 0.5^2, delta = delta)
+#' lambda_fit <- FFBS(do.call(cbind, lambda_list), tau = tau, m0 = 0, s0 = 0.5^2, delta = delta)
 #' 
 #' # plot 
 #' plot(lambda, type = 'o', pch = 16, ylim = c(-3, 4))
 #' lines(lambda_fit, type = 'o', pch = 21, col = 'red')
 #' lines(sapply(lambda_list, mean), type = 'o', pch = 17)
-FFBS <- function(lambda_list, tau, m0, s0, delta) {
+FFBS <- function(lambda_mat, tau, m0 = 0, s0 = 0.25, delta = 0.5) {
   
   ## get info 
-  time_len <- length(lambda_list)
+  time_len <- ncol(lambda_mat)
   lambda_mean <- rep(NA, time_len)
-  
+  n_rank_types <- nrow(lambda_mat)
   
   ## save obj 
   mu_tt <- mu_onestep <- rep(NA, time_len)
@@ -70,9 +70,9 @@ FFBS <- function(lambda_list, tau, m0, s0, delta) {
     }
     
     ## update μ[t|t] and σ[t|t]
-    var_tt[tt] <- 1 / (1 / tau + 1 / var_onestep[tt])
+    var_tt[tt] <- 1 / (n_rank_types / tau + 1 / var_onestep[tt])
     mu_tt[tt]  <- var_tt[tt] * 
-                  (sum(lambda[[tt]]) / tau + mu_onestep[tt] / var_onestep[tt])
+      (sum(lambda_mat[,tt]) / tau + mu_onestep[tt] / var_onestep[tt])
   }
   
   ##
