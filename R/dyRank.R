@@ -3,10 +3,25 @@
 
 #' Hierarchical Dynamic Rating
 #' @export
+#' @importFrom dplyr %>% filter pull as_tibble mutate
+#' @importFrom furrr future_map future_map_dfr future_options
+#' @importFrom future plan 
+#' @importFrom coda as.mcmc as.mcmc.list 
+#' @importFrom purrr map 
+#' @param data A data frame of \code{tibble} class. 
+#' @param var_rank A variable name of the outcome (ranking).
+#' @param var_player A variable name of the players.
+#' @param var_match A variable name of matches.
+#' @param var_time A variable name of time index. 
+#' @param var_rank_type A variable name of rank types.
+#' @param driver_fix A name of the player used as a refenrece. 
+#' @param mcmc MCMC iterations.
+#' @param burnin Burnin periods. 
+#' @param thin Thinning. 
+#' @param n_chains The number of MCMC chains. 
 dyRank <- function(
  data, var_rank, var_player, var_match, var_time, var_rank_type,
-  driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3,
-  compute_gelman = FALSE
+  driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3
 ) {
   
   ##
@@ -63,21 +78,6 @@ dyRank <- function(
     return(fit)
   }, .options = future_options(seed = TRUE))
   
-  
-  ## COMPUTE gelman rubin  
-  if (isTRUE(compute_gelman)) {
-    driver_vec <- 1:dd$n_driver; driver_vec <- driver_vec[-id_driver_fix]
-    gelman_stat <- future_map(, function(i) {
-      mm_list <- map(fit_chain, 
-        ~map(.x$lambda_mean, ~.x[[i]]) %>% do.call(rbind, .) %>% as.mcmc()) %>%
-        as.mcmc.list()
-      gelman.diag(mm_list)
-    })    
-  } else {
-    gelman_stat <- NULL
-  }
-  
-  
   ## summarise the key parameters 
   est_all <- future_map_dfr(1:dd$n_driver, function(i) {
     mm_list <- map(fit_chain, 
@@ -104,7 +104,8 @@ dyRank <- function(
   
   
   ## return values 
-  return(list(rating = est_all, data = dd, fit = fit_chain, gr = gelman_stat))
+  return(list(rating = est_all, data = dd, fit = fit_chain, 
+    reference = id_driver_fix))
 }
 
 #' Hierarchical Dynamic Rating (Single variance)

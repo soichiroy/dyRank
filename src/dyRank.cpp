@@ -112,7 +112,7 @@ Rcpp::List dyRank_cpp(
 
     // allow user interruption 
     if (iter % 5 == 0) {
-      Rcpp::Rcout << "Iter = " << iter << std::endl; 
+      // Rcpp::Rcout << "Iter = " << iter << std::endl; 
       Rcpp::checkUserInterrupt();    
     }    
   }
