@@ -1,0 +1,25 @@
+
+
+Rcpp::List update_moments_cpp(
+  const arma::imat             &dat,
+  const arma::imat             &race_attr,
+  const arma::ivec             &driver_attr,
+  const arma::mat              &lambda,
+        std::vector<arma::mat> &c_mk
+);
+
+void update_counts_cpp_new(
+  const arma::imat             &dat, 
+  const arma::mat              &lambda, 
+  const arma::imat             &race_attr,  
+  const arma::ivec             &driver_attr,
+        std::vector<arma::mat> &c_mk  
+);
+
+std::vector<arma::mat> initialize_counts_cpp(
+  const std::vector<arma::imat> &dat, 
+  const std::vector<arma::mat>  &lambda, 
+  const arma::imat              &race_attr,  
+  const std::vector<arma::ivec> &driver_attr,
+  const int                     &n_race
+);

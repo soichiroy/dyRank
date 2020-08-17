@@ -13,3 +13,76 @@ update_counts_cpp <- function(c_mk, dat_GP, time_GP, delta, lambda, tr) {
     .Call(`_dyRank_update_counts_cpp`, c_mk, dat_GP, time_GP, delta, lambda, tr)
 }
 
+dyRank_gibbs_cpp <- function(dat, race_attr, driver_attr, id_driver_fix, lambda, lambda_mean, sigma, c_mk) {
+    invisible(.Call(`_dyRank_dyRank_gibbs_cpp`, dat, race_attr, driver_attr, id_driver_fix, lambda, lambda_mean, sigma, c_mk))
+}
+
+dyRank_cpp <- function(dat, race_attr, driver_attr, lambda, lambda_mean, sigma, c_mk, mcmc, burnin, thin, id_driver_fix) {
+    .Call(`_dyRank_dyRank_cpp`, dat, race_attr, driver_attr, lambda, lambda_mean, sigma, c_mk, mcmc, burnin, thin, id_driver_fix)
+}
+
+pgdraw_rcpp <- function(b, c) {
+    .Call(`_dyRank_pgdraw_rcpp`, b, c)
+}
+
+samplepg <- function(z) {
+    .Call(`_dyRank_samplepg`, z)
+}
+
+#' Update moments for a driver 
+#' @keywords internal 
+#' @param dat A matrix of one driver's information.
+update_moments_cpp <- function(dat, race_attr, driver_attr, lambda, c_mk) {
+    .Call(`_dyRank_update_moments_cpp`, dat, race_attr, driver_attr, lambda, c_mk)
+}
+
+update_counts_cpp_new <- function(dat, lambda, race_attr, driver_attr, c_mk) {
+    invisible(.Call(`_dyRank_update_counts_cpp_new`, dat, lambda, race_attr, driver_attr, c_mk))
+}
+
+#' Initialize c_mk 
+#' @return Updated c_mk.
+#' @param dat A matrix 
+#' @param lambda A matrix of new values of λ
+#' @param race_attr A matrix of race attributes.
+initialize_counts_cpp <- function(dat, lambda, race_attr, driver_attr, n_race) {
+    .Call(`_dyRank_initialize_counts_cpp`, dat, lambda, race_attr, driver_attr, n_race)
+}
+
+update_lambda_cpp <- function(Z, Omega, lambda_mean, Sigma, n_rank_types, driver_attr, is_fix) {
+    .Call(`_dyRank_update_lambda_cpp`, Z, Omega, lambda_mean, Sigma, n_rank_types, driver_attr, is_fix)
+}
+
+#' FFBs for Multivariate Model
+#' @keywords internal
+#' @examples
+#' ## test code in R
+#' SS <- diag(3)
+#' SS[SS == 0] <- 0.2
+#' lambda <- t(MASS::mvrnorm(20, rep(0, 3), SS))
+#' lambda_mean <- FFBSmult_cpp(lambda_mat = lambda, Sigma = SS)
+#' 
+#' plot(lambda_mean, type = 'l')
+#' sapply(1:3, function(i) points(lambda[i,]))
+FFBSmult_cpp <- function(lambda_mat, Sigma, is_fix, m0 = 0.0, s0 = 0.5, delta = 0.5) {
+    .Call(`_dyRank_FFBSmult_cpp`, lambda_mat, Sigma, is_fix, m0, s0, delta)
+}
+
+#' Update variance-covariance matrix 
+#'
+#' @keywords internal
+#' @param lambda_mat Observed λ matrix.
+#' @param v0 Degree of freedom parameter of the inverse Wishart (prior).
+#' @param S0 Scale matrix of the inverse Wishart (prior).
+#' @return A single draw from the inverse Wishart distribution.
+#' @examples
+#' ## test code in R
+#' SS <- diag(3)
+#' SS[SS == 0] <- 0.2
+#' Y <- mvnfast::rmvn(2000, rep(0, 3), SS)
+#' Ypost <- purrr::map(1:20, ~ update_cov_cpp(Y, 1, diag(3)))
+#' Reduce("+", Ypost) / 20
+update_cov_cpp <- function(lambda_mat, lambda_mean, v0, S0) {
+    .Call(`_dyRank_update_cov_cpp`, lambda_mat, lambda_mean, v0, S0)
+}
+
