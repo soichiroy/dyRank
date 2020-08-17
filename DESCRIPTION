@@ -17,6 +17,13 @@ LinkingTo:
     RcppArmadillo,
     RcppDist
 Imports: 
-    Rcpp
+    Rcpp,
+    coda,
+    future,
+    furrr, 
+    purrr, 
+    dplyr,
+    tibble    
 Depends:
     pgdraw
+    

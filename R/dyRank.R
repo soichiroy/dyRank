@@ -63,6 +63,7 @@ dyRank <- function(
     ## 
     ## MCMC 
     ## 
+    plan(multiprocess)
     fit <- dyRank_cpp(
       dat         = dd$dat_driver,
       race_attr   = dd$race_attr,
