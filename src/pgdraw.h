@@ -1,0 +1,2 @@
+
+double samplepg(double z);
