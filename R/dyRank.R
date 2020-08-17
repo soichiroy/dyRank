@@ -1,7 +1,115 @@
 
+
+
 #' Hierarchical Dynamic Rating
-#' @export 
+#' @export
 dyRank <- function(
+ data, var_rank, var_player, var_match, var_time, var_rank_type,
+  driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3,
+  compute_gelman = FALSE
+) {
+  
+  ##
+  ## create data 
+  ##
+  dd <- dyRank_data(data = data, 
+    var_rank = var_rank, var_player = var_player, 
+    var_match = var_match, var_time = var_time, 
+    var_rank_type = var_rank_type
+  )
+  
+  ##
+  ## driver_fix 
+  ##
+  id_driver_fix <-  dd$dat_ref %>% 
+    filter(drivers == driver_fix) %>% 
+    pull(id_driver) %>% unique()
+  
+  
+  ##
+  ## run n_chains 
+  ##
+  fit_chain <- future_map(1:n_chains, function(chain) {
+    ## 
+    ## initialize and prepare inputs 
+    ## 
+    params <- initialize_params(dd)
+    c_mk <- initialize_counts_cpp(
+      dat         = dd$dat_driver, 
+      lambda      = params$lambda, 
+      race_attr   = dd$race_attr,
+      driver_attr = dd$driver_attr,
+      n_race      = dd$n_race
+    )
+    
+    ## format 
+    c_mk <- map(c_mk, ~matrix(.x, ncol = dd$n_rank_types))
+    
+    ## 
+    ## MCMC 
+    ## 
+    fit <- dyRank_cpp(
+      dat         = dd$dat_driver,
+      race_attr   = dd$race_attr,
+      driver_attr = dd$driver_attr,
+      lambda      = params$lambda,
+      lambda_mean = params$lambda_mean,
+      sigma       = params$sigma, 
+      c_mk        = c_mk,
+      mcmc = mcmc, burnin = burnin, thin = thin, 
+      id_driver_fix = id_driver_fix
+    )
+    
+    return(fit)
+  }, .options = future_options(seed = TRUE))
+  
+  
+  ## COMPUTE gelman rubin  
+  if (isTRUE(compute_gelman)) {
+    driver_vec <- 1:dd$n_driver; driver_vec <- driver_vec[-id_driver_fix]
+    gelman_stat <- future_map(, function(i) {
+      mm_list <- map(fit_chain, 
+        ~map(.x$lambda_mean, ~.x[[i]]) %>% do.call(rbind, .) %>% as.mcmc()) %>%
+        as.mcmc.list()
+      gelman.diag(mm_list)
+    })    
+  } else {
+    gelman_stat <- NULL
+  }
+  
+  
+  ## summarise the key parameters 
+  est_all <- future_map_dfr(1:dd$n_driver, function(i) {
+    mm_list <- map(fit_chain, 
+      ~map(.x$lambda_mean, ~.x[[i]]) %>% do.call(rbind, .) %>% as.mcmc()) %>%
+      as.mcmc.list()
+    mm <- do.call(rbind, mm_list)
+    
+    driver <- dd$dat_ref %>% filter(id_driver == i) %>% 
+                pull(drivers) %>% unique()
+    years  <- dd$dat_ref %>% filter(id_driver == i) %>% 
+                pull(years) %>% unique() %>% 
+                as.character() %>% as.numeric()
+    
+    years_vec <- min(years):max(years)
+          
+    est <- as_tibble(
+      t(apply(mm, 2, quantile, prob = c(0.025, 0.05, 0.5, 0.95, 0.975)))
+    ) %>% 
+    mutate(driver = driver) %>% 
+    mutate(year = years_vec)
+    
+    return(est)
+  })
+  
+  
+  ## return values 
+  return(list(rating = est_all, data = dd, fit = fit_chain, gr = gelman_stat))
+}
+
+#' Hierarchical Dynamic Rating (Single variance)
+#' @export 
+dyRank_single <- function(
   dat_GP, 
   time_GP, 
   year_GP,

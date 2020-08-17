@@ -2,6 +2,7 @@
 
 export(dyRank)
 export(dyRank_data)
+export(dyRank_single)
 importFrom(Rcpp,sourceCpp)
 importFrom(pgdraw,pgdraw)
 useDynLib(dyRank, .registration = TRUE)

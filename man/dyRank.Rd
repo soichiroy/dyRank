@@ -4,8 +4,9 @@
 \alias{dyRank}
 \title{Hierarchical Dynamic Rating}
 \usage{
-dyRank(dat_GP, time_GP, year_GP, delta, Y, player_fix, n_fs, tr, mcmc,
-  burn, thin, verboser = TRUE)
+dyRank(data, var_rank, var_player, var_match, var_time, var_rank_type,
+  driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3,
+  compute_gelman = FALSE)
 }
 \description{
 Hierarchical Dynamic Rating
