@@ -44,6 +44,8 @@ dyRank <- function(
   ##
   ## run n_chains 
   ##
+  plan(multiprocess)
+  
   fit_chain <- future_map(1:n_chains, function(chain) {
     ## 
     ## initialize and prepare inputs 
@@ -63,7 +65,6 @@ dyRank <- function(
     ## 
     ## MCMC 
     ## 
-    plan(multiprocess)
     fit <- dyRank_cpp(
       dat         = dd$dat_driver,
       race_attr   = dd$race_attr,
