@@ -4,7 +4,8 @@
 \alias{initialize_counts}
 \title{Initialize c_mk}
 \usage{
-initialize_counts(dat, lambda, race_attr, driver_attr, n_race)
+initialize_counts(dat, lambda, race_attr, driver_attr, n_race,
+  trunc = 5L)
 }
 \arguments{
 \item{dat}{A matrix}

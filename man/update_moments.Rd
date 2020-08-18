@@ -4,7 +4,7 @@
 \alias{update_moments}
 \title{Update moments for a driver}
 \usage{
-update_moments(dat, race_attr, driver_attr, lambda, c_mk)
+update_moments(dat, race_attr, driver_attr, lambda, c_mk, trunc = 5L)
 }
 \arguments{
 \item{dat}{A matrix of one driver's information.}

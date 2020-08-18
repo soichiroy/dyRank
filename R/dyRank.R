@@ -1,7 +1,69 @@
 
-#' Hierarchical Dynamic Rating (Single variance)
-#' @export 
+
+
+
+
+#' Dynamic Ranking Model
+#' @export
 dyRank <- function(
+  data, var_rank, var_player, var_match, var_time, 
+  driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3,
+  truncation = 3
+) {
+  
+  if (truncation < 1) truncation <- 1
+  
+  ##
+  ## create data 
+  ##
+  var_rank_type <- ".rank_type"
+  data$.rank_type <- 1
+  dd <- dyRank_data(data = data, 
+    var_rank = var_rank, var_player = var_player, 
+    var_match = var_match, var_time = var_time, 
+    var_rank_type = var_rank_type
+  )
+
+
+  ##
+  ## driver_fix 
+  ##
+  id_driver_fix <-  dd$dat_ref %>% 
+    filter(drivers == driver_fix) %>% 
+    pull(id_driver) %>% unique()
+  id_driver_fix <- id_driver_fix - 1 ## cpp code is zero indexed 
+
+  ## initialize parameters 
+  params <- dyRank_initialize_params(dd)
+  c_mk <- initialize_counts(
+    dat         = dd$dat_driver, 
+    lambda      = params, 
+    race_attr   = dd$race_attr,
+    driver_attr = dd$driver_attr,
+    n_race      = dd$n_race,
+    trunc       = truncation
+  )
+
+  c_mk <- map(c_mk, ~matrix(.x, ncol = dd$n_rank_types))
+
+  ##
+  ## MCMC 
+  ## 
+  fit <- dyRank_cpp(
+    dat         = dd$dat_driver,
+    race_attr   = dd$race_attr,
+    driver_attr = dd$driver_attr,
+    lambda      = params,
+    c_mk        = c_mk,
+    mcmc = mcmc, burnin = burnin, thin = thin, 
+    id_driver_fix = id_driver_fix,
+    trunc         = truncation
+  )  
+  return(list(lambda = fit[['lambda']], data = dd))
+}
+
+#' Hierarchical Dynamic Rating (Single variance)
+dyRank_deprecate <- function(
   dat_GP, 
   time_GP, 
   year_GP,

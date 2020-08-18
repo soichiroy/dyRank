@@ -1,28 +1,21 @@
-
 #include <RcppArmadillo.h>
 #include "update_count.h"
 #include "update_lambda.h"
 
 // single iteration 
 // [[Rcpp::export]]
-void hdyRank_gibbs(
+void dyRank_gibbs(
   const std::vector<arma::imat> &dat, 
   const arma::imat              &race_attr,  
   const std::vector<arma::ivec> &driver_attr,
   const int                     &id_driver_fix,
         std::vector<arma::mat>  &lambda,
-        std::vector<arma::vec>  &lambda_mean,
-        std::vector<arma::mat>  &sigma,
-        std::vector<arma::mat>  &c_mk        
+        std::vector<arma::mat>  &c_mk,
+  const int                     &trunc              
 ) {
   
   // info 
   int n_driver = dat.size();
-  int n_rank_types = race_attr.n_cols;
-  
-  // hyper params 
-  double v0 = 4; 
-  arma::mat S0 = arma::eye(n_rank_types, n_rank_types);
   
   //
   // loop over drivers 
@@ -34,41 +27,21 @@ void hdyRank_gibbs(
     // data augmentation & update c_mk 
     // Rcpp::Rcout << "Updating moments ..." << std::endl;
     Rcpp::List moments = update_moments(
-      dat[i], race_attr, driver_attr[i], lambda[i], c_mk
+      dat[i], race_attr, driver_attr[i], lambda[i], c_mk, trunc
     );
-    
-    // sample λ
-    // Rcpp::Rcout << "Updating λ ..." << std::endl;
-    lambda[i] = hdyRank_update_lambda(
-      moments["Z"], moments["Omega"], lambda_mean[i],
-      sigma[i], n_rank_types, driver_attr[i], is_fix
-    );
-        
-    // update lambda mean 
+  
+    // update lambda
     // Rcpp::Rcout << "Updating λ mean ..." << std::endl; 
-    lambda_mean[i] = FFBSmult_cpp(lambda[i], sigma[i], is_fix);
-    
-    // update Σ
-    // Rcpp::Rcout << "Updating Σ ..." << std::endl;
-    sigma[i] = update_cov_cpp(
-      lambda[i], lambda_mean[i], v0, S0
-    );
-    
+    lambda[i] = FFBSsingle_cpp(moments["Z"], moments["Omega"], is_fix);
+        
     // update counts
     // Rcpp::Rcout << "Updating counts ..." << std::endl;    
     update_counts(
-      dat[i], lambda[i], race_attr, driver_attr[i], c_mk
+      dat[i], lambda[i], race_attr, driver_attr[i], c_mk, trunc
     );
     
     // Rcpp::Rcout << "Done with driver" << i << std::endl;
   }
-  
-  
-  // return Rcpp::List::create(
-  //   Rcpp::Named("sigma")  = sigma, 
-  //   Rcpp::Named("lambda") = lambda,
-  //   Rcpp::Named("lambda_mean") = lambda_mean
-  // );
 }
 
 
@@ -76,36 +49,31 @@ void hdyRank_gibbs(
 
 // dyRank Rcpp version 
 // [[Rcpp::export]]
-Rcpp::List hdyRank_cpp(
+Rcpp::List dyRank_cpp(
   const std::vector<arma::imat> &dat, 
   const arma::imat              &race_attr,  
   const std::vector<arma::ivec> &driver_attr,
         std::vector<arma::mat>  &lambda,
-        std::vector<arma::vec>  &lambda_mean,
-        std::vector<arma::mat>  &sigma,
         std::vector<arma::mat>  &c_mk,
   const int &mcmc,
   const int &burnin,
   const int &thin,
-  const int &id_driver_fix
+  const int &id_driver_fix,
+  const int &trunc
 ) {
   
   int total_iter = mcmc + burnin;
   std::vector<std::vector<arma::mat>> save_lambda;
-  std::vector<std::vector<arma::vec>> save_lambda_mean;
-  std::vector<std::vector<arma::mat>> save_sigma;
   for (int iter = 0; iter < total_iter; ++iter) {
     // update parameters 
-    hdyRank_gibbs(
+    dyRank_gibbs(
       dat, race_attr, driver_attr, id_driver_fix,
-      lambda, lambda_mean, sigma, c_mk
+      lambda, c_mk, trunc
     );
     
     // save
     if (iter > burnin && (iter % thin == 0)) {
       save_lambda.push_back(lambda);
-      save_sigma.push_back(sigma);
-      save_lambda_mean.push_back(lambda_mean);      
     }
 
     // allow user interruption 
@@ -115,9 +83,8 @@ Rcpp::List hdyRank_cpp(
     }    
   }
   
+
   return Rcpp::List::create(
-    Rcpp::Named("sigma")  = save_sigma, 
-    Rcpp::Named("lambda") = save_lambda,
-    Rcpp::Named("lambda_mean") = save_lambda_mean
-  );  
+    Rcpp::Named("lambda") = save_lambda
+  );
 }

@@ -6,6 +6,42 @@
 
 using namespace Rcpp;
 
+// dyRank_gibbs
+void dyRank_gibbs(const std::vector<arma::imat>& dat, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, const int& id_driver_fix, std::vector<arma::mat>& lambda, std::vector<arma::mat>& c_mk, const int& trunc);
+RcppExport SEXP _dyRank_dyRank_gibbs(SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP id_driver_fixSEXP, SEXP lambdaSEXP, SEXP c_mkSEXP, SEXP truncSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<arma::imat>& >::type dat(datSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type race_attr(race_attrSEXP);
+    Rcpp::traits::input_parameter< const std::vector<arma::ivec>& >::type driver_attr(driver_attrSEXP);
+    Rcpp::traits::input_parameter< const int& >::type id_driver_fix(id_driver_fixSEXP);
+    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type c_mk(c_mkSEXP);
+    Rcpp::traits::input_parameter< const int& >::type trunc(truncSEXP);
+    dyRank_gibbs(dat, race_attr, driver_attr, id_driver_fix, lambda, c_mk, trunc);
+    return R_NilValue;
+END_RCPP
+}
+// dyRank_cpp
+Rcpp::List dyRank_cpp(const std::vector<arma::imat>& dat, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, std::vector<arma::mat>& lambda, std::vector<arma::mat>& c_mk, const int& mcmc, const int& burnin, const int& thin, const int& id_driver_fix, const int& trunc);
+RcppExport SEXP _dyRank_dyRank_cpp(SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP lambdaSEXP, SEXP c_mkSEXP, SEXP mcmcSEXP, SEXP burninSEXP, SEXP thinSEXP, SEXP id_driver_fixSEXP, SEXP truncSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const std::vector<arma::imat>& >::type dat(datSEXP);
+    Rcpp::traits::input_parameter< const arma::imat& >::type race_attr(race_attrSEXP);
+    Rcpp::traits::input_parameter< const std::vector<arma::ivec>& >::type driver_attr(driver_attrSEXP);
+    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type c_mk(c_mkSEXP);
+    Rcpp::traits::input_parameter< const int& >::type mcmc(mcmcSEXP);
+    Rcpp::traits::input_parameter< const int& >::type burnin(burninSEXP);
+    Rcpp::traits::input_parameter< const int& >::type thin(thinSEXP);
+    Rcpp::traits::input_parameter< const int& >::type id_driver_fix(id_driver_fixSEXP);
+    Rcpp::traits::input_parameter< const int& >::type trunc(truncSEXP);
+    rcpp_result_gen = Rcpp::wrap(dyRank_cpp(dat, race_attr, driver_attr, lambda, c_mk, mcmc, burnin, thin, id_driver_fix, trunc));
+    return rcpp_result_gen;
+END_RCPP
+}
 // hdyRank_gibbs
 void hdyRank_gibbs(const std::vector<arma::imat>& dat, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, const int& id_driver_fix, std::vector<arma::mat>& lambda, std::vector<arma::vec>& lambda_mean, std::vector<arma::mat>& sigma, std::vector<arma::mat>& c_mk);
 RcppExport SEXP _dyRank_hdyRank_gibbs(SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP id_driver_fixSEXP, SEXP lambdaSEXP, SEXP lambda_meanSEXP, SEXP sigmaSEXP, SEXP c_mkSEXP) {
@@ -68,8 +104,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // update_moments
-Rcpp::List update_moments(const arma::imat& dat, const arma::imat& race_attr, const arma::ivec& driver_attr, const arma::mat& lambda, std::vector<arma::mat>& c_mk);
-RcppExport SEXP _dyRank_update_moments(SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP lambdaSEXP, SEXP c_mkSEXP) {
+Rcpp::List update_moments(const arma::imat& dat, const arma::imat& race_attr, const arma::ivec& driver_attr, const arma::mat& lambda, std::vector<arma::mat>& c_mk, int trunc);
+RcppExport SEXP _dyRank_update_moments(SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP lambdaSEXP, SEXP c_mkSEXP, SEXP truncSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -78,13 +114,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::ivec& >::type driver_attr(driver_attrSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type lambda(lambdaSEXP);
     Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type c_mk(c_mkSEXP);
-    rcpp_result_gen = Rcpp::wrap(update_moments(dat, race_attr, driver_attr, lambda, c_mk));
+    Rcpp::traits::input_parameter< int >::type trunc(truncSEXP);
+    rcpp_result_gen = Rcpp::wrap(update_moments(dat, race_attr, driver_attr, lambda, c_mk, trunc));
     return rcpp_result_gen;
 END_RCPP
 }
 // update_counts
-void update_counts(const arma::imat& dat, const arma::mat& lambda, const arma::imat& race_attr, const arma::ivec& driver_attr, std::vector<arma::mat>& c_mk);
-RcppExport SEXP _dyRank_update_counts(SEXP datSEXP, SEXP lambdaSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP c_mkSEXP) {
+void update_counts(const arma::imat& dat, const arma::mat& lambda, const arma::imat& race_attr, const arma::ivec& driver_attr, std::vector<arma::mat>& c_mk, int trunc);
+RcppExport SEXP _dyRank_update_counts(SEXP datSEXP, SEXP lambdaSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP c_mkSEXP, SEXP truncSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::imat& >::type dat(datSEXP);
@@ -92,13 +129,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::imat& >::type race_attr(race_attrSEXP);
     Rcpp::traits::input_parameter< const arma::ivec& >::type driver_attr(driver_attrSEXP);
     Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type c_mk(c_mkSEXP);
-    update_counts(dat, lambda, race_attr, driver_attr, c_mk);
+    Rcpp::traits::input_parameter< int >::type trunc(truncSEXP);
+    update_counts(dat, lambda, race_attr, driver_attr, c_mk, trunc);
     return R_NilValue;
 END_RCPP
 }
 // initialize_counts
-std::vector<arma::mat> initialize_counts(const std::vector<arma::imat>& dat, const std::vector<arma::mat>& lambda, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, const int& n_race);
-RcppExport SEXP _dyRank_initialize_counts(SEXP datSEXP, SEXP lambdaSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP n_raceSEXP) {
+std::vector<arma::mat> initialize_counts(const std::vector<arma::imat>& dat, const std::vector<arma::mat>& lambda, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, const int& n_race, int trunc);
+RcppExport SEXP _dyRank_initialize_counts(SEXP datSEXP, SEXP lambdaSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP n_raceSEXP, SEXP truncSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -107,7 +145,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::imat& >::type race_attr(race_attrSEXP);
     Rcpp::traits::input_parameter< const std::vector<arma::ivec>& >::type driver_attr(driver_attrSEXP);
     Rcpp::traits::input_parameter< const int& >::type n_race(n_raceSEXP);
-    rcpp_result_gen = Rcpp::wrap(initialize_counts(dat, lambda, race_attr, driver_attr, n_race));
+    Rcpp::traits::input_parameter< int >::type trunc(truncSEXP);
+    rcpp_result_gen = Rcpp::wrap(initialize_counts(dat, lambda, race_attr, driver_attr, n_race, trunc));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -158,18 +197,37 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// FFBSsingle_cpp
+arma::mat FFBSsingle_cpp(const arma::mat& Z, const arma::mat& Omega, const bool& is_fix, const double m0, const double s0, const double delta);
+RcppExport SEXP _dyRank_FFBSsingle_cpp(SEXP ZSEXP, SEXP OmegaSEXP, SEXP is_fixSEXP, SEXP m0SEXP, SEXP s0SEXP, SEXP deltaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type Z(ZSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type Omega(OmegaSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type is_fix(is_fixSEXP);
+    Rcpp::traits::input_parameter< const double >::type m0(m0SEXP);
+    Rcpp::traits::input_parameter< const double >::type s0(s0SEXP);
+    Rcpp::traits::input_parameter< const double >::type delta(deltaSEXP);
+    rcpp_result_gen = Rcpp::wrap(FFBSsingle_cpp(Z, Omega, is_fix, m0, s0, delta));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_dyRank_dyRank_gibbs", (DL_FUNC) &_dyRank_dyRank_gibbs, 7},
+    {"_dyRank_dyRank_cpp", (DL_FUNC) &_dyRank_dyRank_cpp, 10},
     {"_dyRank_hdyRank_gibbs", (DL_FUNC) &_dyRank_hdyRank_gibbs, 8},
     {"_dyRank_hdyRank_cpp", (DL_FUNC) &_dyRank_hdyRank_cpp, 11},
     {"_dyRank_pgdraw_rcpp", (DL_FUNC) &_dyRank_pgdraw_rcpp, 2},
     {"_dyRank_samplepg", (DL_FUNC) &_dyRank_samplepg, 1},
-    {"_dyRank_update_moments", (DL_FUNC) &_dyRank_update_moments, 5},
-    {"_dyRank_update_counts", (DL_FUNC) &_dyRank_update_counts, 5},
-    {"_dyRank_initialize_counts", (DL_FUNC) &_dyRank_initialize_counts, 5},
+    {"_dyRank_update_moments", (DL_FUNC) &_dyRank_update_moments, 6},
+    {"_dyRank_update_counts", (DL_FUNC) &_dyRank_update_counts, 6},
+    {"_dyRank_initialize_counts", (DL_FUNC) &_dyRank_initialize_counts, 6},
     {"_dyRank_hdyRank_update_lambda", (DL_FUNC) &_dyRank_hdyRank_update_lambda, 7},
     {"_dyRank_FFBSmult_cpp", (DL_FUNC) &_dyRank_FFBSmult_cpp, 6},
     {"_dyRank_update_cov_cpp", (DL_FUNC) &_dyRank_update_cov_cpp, 4},
+    {"_dyRank_FFBSsingle_cpp", (DL_FUNC) &_dyRank_FFBSsingle_cpp, 6},
     {NULL, NULL, 0}
 };
 

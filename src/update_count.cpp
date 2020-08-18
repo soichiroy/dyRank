@@ -12,13 +12,13 @@ Rcpp::List update_moments(
   const arma::imat             &race_attr,
   const arma::ivec             &driver_attr,
   const arma::mat              &lambda,
-        std::vector<arma::mat> &c_mk
+        std::vector<arma::mat> &c_mk,
+        int                     trunc = 5
 ) {
   
   // number of observations for this driver 
   int n_obs = dat.n_rows; 
   int n_rank_types = race_attr.n_cols;
-  int trunc = 5;
   
   // extract driver's info 
   int n_tenure = driver_attr(0);
@@ -78,13 +78,13 @@ void update_counts(
   const arma::mat              &lambda, 
   const arma::imat             &race_attr,  
   const arma::ivec             &driver_attr,
-        std::vector<arma::mat> &c_mk  
+        std::vector<arma::mat> &c_mk,
+        int                     trunc = 5
 ) {
 
   // number of observations for this driver 
   int n_obs = dat.n_rows; 
   int min_year = driver_attr(1);
-  int trunc = 5;
   
   for (int j = 0; j < n_obs; ++j) {    
     // extract infor 
@@ -117,10 +117,9 @@ std::vector<arma::mat> initialize_counts(
   const std::vector<arma::mat>  &lambda, 
   const arma::imat              &race_attr,  
   const std::vector<arma::ivec> &driver_attr,
-  const int                     &n_race
+  const int                     &n_race,
+        int                      trunc = 5
 ) {
-
-  int trunc = 5;
   
   // initailize c_mk 
   std::vector<arma::mat> c_mk;

@@ -2,11 +2,12 @@
 % Please edit documentation in R/dyRank.R
 \name{dyRank}
 \alias{dyRank}
-\title{Hierarchical Dynamic Rating (Single variance)}
+\title{Dynamic Ranking Model}
 \usage{
-dyRank(dat_GP, time_GP, year_GP, delta, Y, player_fix, n_fs, tr, mcmc,
-  burn, thin, verboser = TRUE)
+dyRank(data, var_rank, var_player, var_match, var_time, driver_fix,
+  mcmc = 100, burnin = 10, thin = 1, n_chains = 3,
+  truncation = 3)
 }
 \description{
-Hierarchical Dynamic Rating (Single variance)
+Dynamic Ranking Model
 }

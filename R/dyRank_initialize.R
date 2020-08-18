@@ -1,6 +1,7 @@
 
 
 ## initialize inputs 
+# @param data An output of \code{dyRank_data()}.
 initialize_params <- function(data) {
   
   if (!("dyRank.data" %in% class(data))) stop("Invalid input")
@@ -54,4 +55,19 @@ draw_lambda_th <- function(lambda_mean, sigma) {
   }
     
   return(lambda)
+}
+
+
+
+#' parameter initialization for dyRank()
+#' @keywords internal
+#' @importFrom purrr map 
+dyRank_initialize_params <- function(data) {
+  if (!("dyRank.data" %in% class(data))) stop("Invalid input")
+  
+  ## initialize λ̅
+  lambda_mean <- map(data$driver_attr, 
+    ~ matrix(draw_lambda0(.x[1]), ncol = 1))
+  
+  return(lambda_mean)
 }

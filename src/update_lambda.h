@@ -25,3 +25,13 @@ arma::mat update_cov_cpp(
   const double    &v0,
   const arma::mat &S0
 );
+
+
+arma::mat FFBSsingle_cpp(
+  const arma::mat &Z,
+  const arma::mat &Omega,
+  const bool      &is_fix, 
+  const double    m0 = 0.0,
+  const double    s0 = 0.25, 
+  const double    delta = 0.25
+);
