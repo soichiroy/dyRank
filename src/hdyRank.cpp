@@ -5,7 +5,7 @@
 
 // single iteration 
 // [[Rcpp::export]]
-void dyRank_gibbs_cpp(
+void hdyRank_gibbs(
   const std::vector<arma::imat> &dat, 
   const arma::imat              &race_attr,  
   const std::vector<arma::ivec> &driver_attr,
@@ -35,13 +35,13 @@ void dyRank_gibbs_cpp(
     
     // data augmentation & update c_mk 
     // Rcpp::Rcout << "Updating moments ..." << std::endl;
-    Rcpp::List moments = update_moments_cpp(
+    Rcpp::List moments = update_moments(
       dat[i], race_attr, driver_attr[i], lambda[i], c_mk
     );
     
     // sample λ
     // Rcpp::Rcout << "Updating λ ..." << std::endl;
-    lambda[i] = update_lambda_cpp(
+    lambda[i] = hdyRank_update_lambda(
       moments["Z"], moments["Omega"], lambda_mean[i],
       sigma[i], n_rank_types, driver_attr[i], is_fix
     );
@@ -58,7 +58,7 @@ void dyRank_gibbs_cpp(
     
     // update counts
     // Rcpp::Rcout << "Updating counts ..." << std::endl;    
-    update_counts_cpp_new(
+    update_counts(
       dat[i], lambda[i], race_attr, driver_attr[i], c_mk
     );
     
@@ -78,7 +78,7 @@ void dyRank_gibbs_cpp(
 
 // dyRank Rcpp version 
 // [[Rcpp::export]]
-Rcpp::List dyRank_cpp(
+Rcpp::List hdyRank_cpp(
   const std::vector<arma::imat> &dat, 
   const arma::imat              &race_attr,  
   const std::vector<arma::ivec> &driver_attr,
@@ -98,7 +98,7 @@ Rcpp::List dyRank_cpp(
   std::vector<std::vector<arma::mat>> save_sigma;
   for (int iter = 0; iter < total_iter; ++iter) {
     // update parameters 
-    dyRank_gibbs_cpp(
+    hdyRank_gibbs(
       dat, race_attr, driver_attr, id_driver_fix,
       lambda, lambda_mean, sigma, c_mk
     );

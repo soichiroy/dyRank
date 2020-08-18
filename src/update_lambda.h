@@ -1,6 +1,6 @@
 
 
-arma::mat update_lambda_cpp(
+arma::mat hdyRank_update_lambda(
   const arma::mat  &Z,
   const arma::mat  &Omega,
   const arma::vec  &lambda_mean, 

@@ -6,7 +6,7 @@
 // Update λ for driver i 
 // @return A matrix of λ where rows correspond to time and columns to rank type.
 // [[Rcpp::export]]
-arma::mat update_lambda_cpp(
+arma::mat hdyRank_update_lambda(
   const arma::mat  &Z,
   const arma::mat  &Omega,
   const arma::vec  &lambda_mean, 
@@ -16,7 +16,7 @@ arma::mat update_lambda_cpp(
   const bool       &is_fix
 ) {
   
-  
+  // obtain tenure length
   int n_tenure = driver_attr(0);
   
   // new mean 

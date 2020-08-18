@@ -7,7 +7,7 @@
 //' @keywords internal 
 //' @param dat A matrix of one driver's information.
 // [[Rcpp::export]]
-Rcpp::List update_moments_cpp(
+Rcpp::List update_moments(
   const arma::imat             &dat,
   const arma::imat             &race_attr,
   const arma::ivec             &driver_attr,
@@ -73,7 +73,7 @@ Rcpp::List update_moments_cpp(
 // @param lambda A matrix of new values of λ
 // @param race_attr A matrix of race attributes.
 // [[Rcpp::export]]
-void update_counts_cpp_new(
+void update_counts(
   const arma::imat             &dat, 
   const arma::mat              &lambda, 
   const arma::imat             &race_attr,  
@@ -112,7 +112,7 @@ void update_counts_cpp_new(
 //' @param lambda A matrix of new values of λ
 //' @param race_attr A matrix of race attributes.
 // [[Rcpp::export]]
-std::vector<arma::mat> initialize_counts_cpp(
+std::vector<arma::mat> initialize_counts(
   const std::vector<arma::imat> &dat, 
   const std::vector<arma::mat>  &lambda, 
   const arma::imat              &race_attr,  

@@ -4,8 +4,8 @@
 \alias{FFBSmult_cpp}
 \title{FFBs for Multivariate Model}
 \usage{
-FFBSmult_cpp(lambda_mat, Sigma, is_fix, m0 = 0, s0 = 0.5,
-  delta = 0.5)
+FFBSmult_cpp(lambda_mat, Sigma, is_fix, m0 = 0, s0 = 0.25,
+  delta = 0.25)
 }
 \description{
 FFBs for Multivariate Model

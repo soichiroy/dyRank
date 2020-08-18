@@ -2,34 +2,11 @@
 % Please edit documentation in R/dyRank.R
 \name{dyRank}
 \alias{dyRank}
-\title{Hierarchical Dynamic Rating}
+\title{Hierarchical Dynamic Rating (Single variance)}
 \usage{
-dyRank(data, var_rank, var_player, var_match, var_time, var_rank_type,
-  driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3)
-}
-\arguments{
-\item{data}{A data frame of \code{tibble} class.}
-
-\item{var_rank}{A variable name of the outcome (ranking).}
-
-\item{var_player}{A variable name of the players.}
-
-\item{var_match}{A variable name of matches.}
-
-\item{var_time}{A variable name of time index.}
-
-\item{var_rank_type}{A variable name of rank types.}
-
-\item{driver_fix}{A name of the player used as a refenrece.}
-
-\item{mcmc}{MCMC iterations.}
-
-\item{burnin}{Burnin periods.}
-
-\item{thin}{Thinning.}
-
-\item{n_chains}{The number of MCMC chains.}
+dyRank(dat_GP, time_GP, year_GP, delta, Y, player_fix, n_fs, tr, mcmc,
+  burn, thin, verboser = TRUE)
 }
 \description{
-Hierarchical Dynamic Rating
+Hierarchical Dynamic Rating (Single variance)
 }
