@@ -39,7 +39,7 @@ dyRank <- function(
   id_driver_fix <-  dd$dat_ref %>% 
     filter(drivers == driver_fix) %>% 
     pull(id_driver) %>% unique()
-  
+  id_driver_fix <- id_driver_fix - 1 ## cpp code is zero indexed 
   
   ##
   ## run n_chains 

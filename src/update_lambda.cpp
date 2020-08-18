@@ -64,8 +64,8 @@ arma::vec FFBSmult_cpp(
   const arma::mat &Sigma,
   const bool      &is_fix,
   const double    m0 = 0.0,
-  const double    s0 = 0.5,
-  const double    delta = 0.5
+  const double    s0 = 0.25,
+  const double    delta = 0.25
 ) {
   arma::vec lambda_mean = arma::zeros(lambda_mat.n_rows);
   
