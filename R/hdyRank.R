@@ -48,7 +48,7 @@ hdyRank <- function(
     ## initialize and prepare inputs 
     ## 
     params <- initialize_params(dd)
-    c_mk <- initialize_counts_cpp(
+    c_mk <- initialize_counts(
       dat         = dd$dat_driver, 
       lambda      = params$lambda, 
       race_attr   = dd$race_attr,
