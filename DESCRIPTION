@@ -1,6 +1,6 @@
 Package: dyRank
 Title: Hierarchical Dynamic Ranking 
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Soichiro",
            family = "Yamauchi",
@@ -8,7 +8,7 @@ Authors@R:
            email = "syamauchi@g.harvard.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Estimate dynamic rating based on multiple ranked data.
-License: What license it uses
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
@@ -23,7 +23,7 @@ Imports:
     furrr, 
     purrr, 
     dplyr,
-    tibble    
-Depends:
+    tibble,
     pgdraw
+    
     
