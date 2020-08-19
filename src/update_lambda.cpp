@@ -1,7 +1,7 @@
-
 // RcppDist
 #include <RcppDist.h>
 
+// [[Rcpp::plugins("cpp11")]]
 
 // Update λ for driver i 
 // @return A matrix of λ where rows correspond to time and columns to rank type.
@@ -175,11 +175,6 @@ arma::mat update_cov_cpp(
   return riwish(vn, Sn);
 }
 
-
-// [[Rcpp::depends(RcppArmadillo)]]
-#include <RcppArmadillo.h>
-
-// [[Rcpp::plugins("cpp11")]]
 
 //' C++ implementation of FFBB algorithm 
 //' @keywords internal
