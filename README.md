@@ -25,8 +25,14 @@ devtools::install_github("sou412/dyRank")
 As an example, we use `f1_race` data in the `dyRank` package.
 
 ``` r
+## load package 
+require(dyRank)
+require(tidyverse)
+```
+
+``` r
 ## load data 
-data("f1_race")
+data("f1_race", package = "dyRank")
 
 ## view data 
 f1_race

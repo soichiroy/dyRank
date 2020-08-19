@@ -5,9 +5,24 @@
 
 #' Dynamic Ranking Model
 #' @export
+#' @importFrom dplyr %>% filter pull mutate
+#' @importFrom furrr future_map future_map_dfr future_options
+#' @importFrom future plan multiprocess
+#' @importFrom coda as.mcmc as.mcmc.list 
+#' @importFrom purrr map 
+#' @param data A data frame of \code{tibble} class. 
+#' @param var_rank A variable name of the outcome (ranking).
+#' @param var_player A variable name of the players.
+#' @param var_match A variable name of matches.
+#' @param var_time A variable name of time index. 
+#' @param driver_fix A name of the player used as a refenrece. 
+#' @param mcmc MCMC iterations.
+#' @param burnin Burnin periods. 
+#' @param thin Thinning. 
+#' @param truncation A truncation parameter.
 dyRank <- function(
   data, var_rank, var_player, var_match, var_time, 
-  driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3,
+  driver_fix, mcmc = 100, burnin = 10, thin = 1,
   truncation = 3
 ) {
   
@@ -58,8 +73,15 @@ dyRank <- function(
     mcmc = mcmc, burnin = burnin, thin = thin, 
     id_driver_fix = id_driver_fix,
     trunc         = truncation
-  )  
-  return(list(lambda = fit[['lambda']], data = dd))
+  )
+  
+  
+  ##
+  ## output 
+  ## 
+  out <- list(lambda = fit[['lambda']], data = dd)
+  class(out) <- c(class(out), "dyRank.fit")
+  return(out)
 }
 
 #' Hierarchical Dynamic Rating (Single variance)

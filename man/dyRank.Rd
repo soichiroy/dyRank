@@ -5,8 +5,28 @@
 \title{Dynamic Ranking Model}
 \usage{
 dyRank(data, var_rank, var_player, var_match, var_time, driver_fix,
-  mcmc = 100, burnin = 10, thin = 1, n_chains = 3,
-  truncation = 3)
+  mcmc = 100, burnin = 10, thin = 1, truncation = 3)
+}
+\arguments{
+\item{data}{A data frame of \code{tibble} class.}
+
+\item{var_rank}{A variable name of the outcome (ranking).}
+
+\item{var_player}{A variable name of the players.}
+
+\item{var_match}{A variable name of matches.}
+
+\item{var_time}{A variable name of time index.}
+
+\item{driver_fix}{A name of the player used as a refenrece.}
+
+\item{mcmc}{MCMC iterations.}
+
+\item{burnin}{Burnin periods.}
+
+\item{thin}{Thinning.}
+
+\item{truncation}{A truncation parameter.}
 }
 \description{
 Dynamic Ranking Model
