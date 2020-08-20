@@ -47,17 +47,8 @@ arma::mat hdyRank_update_lambda(
   return lambda; 
 }
 
-//' FFBs for Multivariate Model
+//' FFBS for Multivariate Model
 //' @keywords internal
-//' @examples
-//' ## test code in R
-//' SS <- diag(3)
-//' SS[SS == 0] <- 0.2
-//' lambda <- t(MASS::mvrnorm(20, rep(0, 3), SS))
-//' lambda_mean <- FFBSmult_cpp(lambda_mat = lambda, Sigma = SS)
-//' 
-//' plot(lambda_mean, type = 'l')
-//' sapply(1:3, function(i) points(lambda[i,]))
 // [[Rcpp::export]]
 arma::vec FFBSmult_cpp(
   const arma::mat &lambda_mat, 
@@ -137,13 +128,6 @@ arma::vec FFBSmult_cpp(
 //' @param v0 Degree of freedom parameter of the inverse Wishart (prior).
 //' @param S0 Scale matrix of the inverse Wishart (prior).
 //' @return A single draw from the inverse Wishart distribution.
-//' @examples
-//' ## test code in R
-//' SS <- diag(3)
-//' SS[SS == 0] <- 0.2
-//' Y <- mvnfast::rmvn(2000, rep(0, 3), SS)
-//' Ypost <- purrr::map(1:20, ~ update_cov_cpp(Y, 1, diag(3)))
-//' Reduce("+", Ypost) / 20
 // [[Rcpp::export]]
 arma::mat update_cov_cpp(
   const arma::mat &lambda_mat,

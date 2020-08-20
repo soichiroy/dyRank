@@ -19,12 +19,4 @@ A single draw from the inverse Wishart distribution.
 \description{
 Update variance-covariance matrix
 }
-\examples{
-## test code in R
-SS <- diag(3)
-SS[SS == 0] <- 0.2
-Y <- mvnfast::rmvn(2000, rep(0, 3), SS)
-Ypost <- purrr::map(1:20, ~ update_cov_cpp(Y, 1, diag(3)))
-Reduce("+", Ypost) / 20
-}
 \keyword{internal}

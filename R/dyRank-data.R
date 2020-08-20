@@ -2,8 +2,8 @@
 
 
 #' Data preparation for dynamic rating estimation 
-#' @export
-#' @param data A data frame 
+#' @keywords internal
+#' @inheritParams dyRank
 dyRank_data <- function(
   data, var_rank, var_player, var_match, var_time, var_rank_type = NULL
 ) {

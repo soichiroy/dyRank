@@ -8,8 +8,17 @@ dyRank_data(data, var_rank, var_player, var_match, var_time,
   var_rank_type = NULL)
 }
 \arguments{
-\item{data}{A data frame}
+\item{data}{A data frame of \code{tibble} class.}
+
+\item{var_rank}{A variable name of the outcome (ranking).}
+
+\item{var_player}{A variable name of the players.}
+
+\item{var_match}{A variable name of matches.}
+
+\item{var_time}{A variable name of time index.}
 }
 \description{
 Data preparation for dynamic rating estimation
 }
+\keyword{internal}

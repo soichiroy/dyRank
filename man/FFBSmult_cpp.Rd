@@ -2,22 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{FFBSmult_cpp}
 \alias{FFBSmult_cpp}
-\title{FFBs for Multivariate Model}
+\title{FFBS for Multivariate Model}
 \usage{
 FFBSmult_cpp(lambda_mat, Sigma, is_fix, m0 = 0, s0 = 0.25,
   delta = 0.25)
 }
 \description{
-FFBs for Multivariate Model
-}
-\examples{
-## test code in R
-SS <- diag(3)
-SS[SS == 0] <- 0.2
-lambda <- t(MASS::mvrnorm(20, rep(0, 3), SS))
-lambda_mean <- FFBSmult_cpp(lambda_mat = lambda, Sigma = SS)
-
-plot(lambda_mean, type = 'l')
-sapply(1:3, function(i) points(lambda[i,]))
+FFBS for Multivariate Model
 }
 \keyword{internal}
