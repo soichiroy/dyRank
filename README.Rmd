@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `dyRank` is to estimate rating of players based on rank-ordered data 
+The goal of `dyRank` is to estimate the dynamic rating of players based on rank-ordered data 
 with time-index.
 
 ## Installation
@@ -91,14 +91,14 @@ fit <- dyRank(
 	of the MCMC step. 
 	
 ```{r}
-	## total number of elements
-	length(fit$lambda)
+## total number of elements
+length(fit$lambda)
 
-	## each element of lambda is a list of estimates for all drivers
-	length(fit$lambda[[1]])
-	
-	## each element of lambda[[k]] is an estimate for drivers
-	length(fit$lambda[[1]][[1]])
+## each element of lambda is a list of estimates for all drivers
+length(fit$lambda[[1]])
+
+## each element of lambda[[k]] is an estimate for drivers
+length(fit$lambda[[1]][[1]])
 ```
 - `data` returns the list of formatted datasets.
 

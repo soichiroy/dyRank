@@ -7,8 +7,8 @@
 
 <!-- badges: end -->
 
-The goal of `dyRank` is to estimate rating of players based on
-rank-ordered data with time-index.
+The goal of `dyRank` is to estimate the dynamic rating of players based
+on rank-ordered data with time-index.
 
 ## Installation
 
@@ -110,16 +110,16 @@ fit <- dyRank(
 <!-- end list -->
 
 ``` r
-    ## total number of elements
-    length(fit$lambda)
+## total number of elements
+length(fit$lambda)
 #> [1] 99
 
-    ## each element of lambda is a list of estimates for all drivers
-    length(fit$lambda[[1]])
+## each element of lambda is a list of estimates for all drivers
+length(fit$lambda[[1]])
 #> [1] 209
-    
-    ## each element of lambda[[k]] is an estimate for drivers
-    length(fit$lambda[[1]][[1]])
+
+## each element of lambda[[k]] is an estimate for drivers
+length(fit$lambda[[1]][[1]])
 #> [1] 2
 ```
 
@@ -161,18 +161,18 @@ rating <- get_rating(fit)
 ## view the estimates 
 rating
 #> # A tibble: 1,103 x 7
-#>    driver         year  `2.5%`    `5%`  `50%`   `95%` `97.5%`
-#>    <chr>         <int>   <dbl>   <dbl>  <dbl>   <dbl>   <dbl>
-#>  1 Adrian Campos  1987 -1.87   -1.58   -0.614  0.426    0.462
-#>  2 Adrian Campos  1988 -2.16   -1.91   -0.844  0.306    0.614
-#>  3 Adrian Sutil   2007 -1.37   -1.21   -0.675 -0.166   -0.132
-#>  4 Adrian Sutil   2008 -1.36   -1.09   -0.430  0.245    0.410
-#>  5 Adrian Sutil   2009 -0.479  -0.314   0.278  0.727    0.795
-#>  6 Adrian Sutil   2010  0.310   0.512   0.980  1.32     1.34 
-#>  7 Adrian Sutil   2011  0.503   0.557   1.02   1.44     1.51 
-#>  8 Adrian Sutil   2012 -0.0572  0.0198  0.677  1.34     1.39 
-#>  9 Adrian Sutil   2013  0.0331  0.0794  0.521  0.976    1.03 
-#> 10 Adrian Sutil   2014 -1.01   -0.958  -0.354  0.0139   0.150
+#>    driver         year `2.5%`   `5%`   `50%`  `95%` `97.5%`
+#>    <chr>         <int>  <dbl>  <dbl>   <dbl>  <dbl>   <dbl>
+#>  1 Adrian Campos  1987 -1.42  -1.32  -0.584   0.424  0.631 
+#>  2 Adrian Campos  1988 -2.00  -1.89  -0.705   0.324  0.434 
+#>  3 Adrian Sutil   2007 -1.33  -1.22  -0.755  -0.192 -0.0966
+#>  4 Adrian Sutil   2008 -1.30  -1.23  -0.573  -0.181 -0.0922
+#>  5 Adrian Sutil   2009 -0.530 -0.456  0.101   0.553  0.594 
+#>  6 Adrian Sutil   2010  0.131  0.315  0.895   1.38   1.47  
+#>  7 Adrian Sutil   2011  0.535  0.580  1.01    1.39   1.65  
+#>  8 Adrian Sutil   2012  0.162  0.189  0.877   1.45   1.65  
+#>  9 Adrian Sutil   2013  0.183  0.222  0.639   0.995  1.07  
+#> 10 Adrian Sutil   2014 -0.734 -0.607 -0.0505  0.561  0.752 
 #> # … with 1,093 more rows
 ```
 
