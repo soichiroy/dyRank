@@ -5,10 +5,12 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.org/soichiroy/dyRank.svg?branch=master)](https://travis-ci.org/soichiroy/dyRank)
 <!-- badges: end -->
 
-The goal of `dyRank` is to estimate the dynamic rating of players based
-on rank-ordered data with time-index.
+The goal of `dyRank` is to estimate the dynamic rating of items, players
+or students based on rank-ordered data with time-index.
 
 ## Installation
 
