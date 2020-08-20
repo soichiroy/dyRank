@@ -4,6 +4,10 @@
 #' Data preparation for dynamic rating estimation 
 #' @keywords internal
 #' @inheritParams dyRank
+#' @importFrom dplyr %>% pull tibble mutate mutate_all select arrange summarise group_by
+#' @importFrom tidyr pivot_wider drop_na nest unite
+#' @importFrom purrr map 
+#' @importFrom rlang sym !!
 dyRank_data <- function(
   data, var_rank, var_player, var_match, var_time, var_rank_type = NULL
 ) {
