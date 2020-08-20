@@ -19,7 +19,7 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("sou412/dyRank")
+devtools::install_github("soichiroy/dyRank")
 ```
 
 ## Example: Single Ranking Type
