@@ -46,6 +46,8 @@ require(tidyverse)
 ## load data 
 data("f1_race", package = "dyRank")
 
+## see ?f1_race for the details of this dataset.
+
 ## view data 
 f1_race
 ```
@@ -54,7 +56,7 @@ f1_race
 ### Estimate rating 
 
 
-```{r eval=FALSE}
+```{r eval=TRUE, cache=TRUE}
 ## estimate via MCMC 
 fit <- dyRank(
 	data       = f1_race, 
@@ -62,7 +64,7 @@ fit <- dyRank(
 	var_player = "driver", 
 	var_match  = "GP",
 	var_time   = "year",
-	driver_fix = "Aguri Suzuki",
+	driver_fix = "Timo Glock",
 	mcmc = 100, burnin = 10, thin = 1,
 	truncation = 3
 )
@@ -81,5 +83,83 @@ fit <- dyRank(
 + `mcmc`, `burnin` and `thin` correspond to the MCMC parameters that specify the iterations, burin periods and the thinning, respectively. Default values are set small; in practice longer values are recommended.
 + `truncation`: A truncation parameter that takes `1` or larger. This parameter specifies if we want to ignore players who ranked `k` or lower where `k` is the vlaue of `truncation`. The value of `1` corresponds to the original Placket-Luce representation, but the estimation might not be stable when observations are dropped due to `NA` values. 
 
+**Return**
+
+`dyRank()` returns a list of two elements.
+
+- `lambda`: Estimated parameters stored as a list. Each element of the list corresponds to an interation 
+	of the MCMC step. 
+	
+```{r}
+	## total number of elements
+	length(fit$lambda)
+
+	## each element of lambda is a list of estimates for all drivers
+	length(fit$lambda[[1]])
+	
+	## each element of lambda[[k]] is an estimate for drivers
+	length(fit$lambda[[1]][[1]])
+```
+- `data` returns the list of formatted datasets.
+
+```{r}
+## formatted data used for the estimation 
+fit$data$dat_ref
+
+## global information
+fit$data$n_drivers
+fit$data$n_race
+```
+
+### Obtaining the summary estimates 
 
 
+```{r}
+## get the summary of rating 
+rating <- get_rating(fit)
+
+## view the estimates 
+rating
+```
+
+```{r, fig.width=7, fig.height=3}
+## example visualization 
+drivers_use <- c("Michael Schumacher", "Lewis Hamilton", "Sebastian Vettel", "Kimi Räikkönen")
+
+## plot using ggplot()
+rating %>% 
+	filter(driver %in% drivers_use) %>% 
+	ggplot(aes(x = year, y = `50%`)) + 
+		geom_ribbon(aes(ymin = `5%`, ymax = `95%`), alpha = 0.3) + 
+		geom_line() + 
+		geom_point(size = 0.7) + 
+		theme_bw() + 
+		labs(y = "Rating", x = '') + 
+		facet_wrap(~driver, ncol = 4) + 
+		ylim(-2, 8) + 
+		xlim(1984, 2019)
+```
+
+
+### Assessing the estimates 
+
+
+```{r}
+## load coda package 
+require(coda)
+
+## convert estimates to the MCMC object 
+mcmc_obj <- get_mcmc(fit)
+
+## who is the first driver in the data?
+names(mcmc_obj)[1]
+
+## plot the first driver's rating estimate 
+plot(mcmc_obj[[1]])
+
+## plot the autocorrelation 
+autocorr.plot(mcmc_obj[[1]])
+
+## geweke plot 
+geweke.plot(mcmc_obj[[1]])
+```

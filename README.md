@@ -34,6 +34,8 @@ require(tidyverse)
 ## load data 
 data("f1_race", package = "dyRank")
 
+## see ?f1_race for the details of this dataset.
+
 ## view data 
 f1_race
 #> # A tibble: 14,037 x 8
@@ -62,7 +64,7 @@ fit <- dyRank(
     var_player = "driver", 
     var_match  = "GP",
     var_time   = "year",
-    driver_fix = "Aguri Suzuki",
+    driver_fix = "Timo Glock",
     mcmc = 100, burnin = 10, thin = 1,
     truncation = 3
 )
@@ -97,3 +99,135 @@ fit <- dyRank(
     corresponds to the original Placket-Luce representation, but the
     estimation might not be stable when observations are dropped due to
     `NA` values.
+
+**Return**
+
+`dyRank()` returns a list of two elements.
+
+  - `lambda`: Estimated parameters stored as a list. Each element of the
+    list corresponds to an interation of the MCMC step.
+
+<!-- end list -->
+
+``` r
+    ## total number of elements
+    length(fit$lambda)
+#> [1] 99
+
+    ## each element of lambda is a list of estimates for all drivers
+    length(fit$lambda[[1]])
+#> [1] 209
+    
+    ## each element of lambda[[k]] is an estimate for drivers
+    length(fit$lambda[[1]][[1]])
+#> [1] 2
+```
+
+  - `data` returns the list of formatted datasets.
+
+<!-- end list -->
+
+``` r
+## formatted data used for the estimation 
+fit$data$dat_ref
+#> # A tibble: 9,285 x 6
+#>    years races        drivers         rank_type id_time id_driver
+#>    <fct> <fct>        <chr>               <dbl>   <dbl>     <dbl>
+#>  1 1984  brazil       Alain Prost             1       1         4
+#>  2 1984  brazil       Keke Rosberg            1       1       106
+#>  3 1984  brazil       Elio de Angelis         1       1        43
+#>  4 1984  brazil       Eddie Cheever           1       1        41
+#>  5 1984  brazil       Patrick Tambay          1       1       153
+#>  6 1984  brazil       Thierry Boutsen         1       1       196
+#>  7 1984  brazil       Marc Surer              1       1       118
+#>  8 1984  brazil       Jonathan Palmer         1       1        95
+#>  9 1984  south-africa Niki Lauda              1       1       142
+#> 10 1984  south-africa Alain Prost             1       1         4
+#> # … with 9,275 more rows
+
+## global information
+fit$data$n_drivers
+#> [1] 209
+fit$data$n_race
+#> [1] 630
+```
+
+### Obtaining the summary estimates
+
+``` r
+## get the summary of rating 
+rating <- get_rating(fit)
+
+## view the estimates 
+rating
+#> # A tibble: 1,103 x 7
+#>    driver         year  `2.5%`    `5%`  `50%`   `95%` `97.5%`
+#>    <chr>         <int>   <dbl>   <dbl>  <dbl>   <dbl>   <dbl>
+#>  1 Adrian Campos  1987 -1.87   -1.58   -0.614  0.426    0.462
+#>  2 Adrian Campos  1988 -2.16   -1.91   -0.844  0.306    0.614
+#>  3 Adrian Sutil   2007 -1.37   -1.21   -0.675 -0.166   -0.132
+#>  4 Adrian Sutil   2008 -1.36   -1.09   -0.430  0.245    0.410
+#>  5 Adrian Sutil   2009 -0.479  -0.314   0.278  0.727    0.795
+#>  6 Adrian Sutil   2010  0.310   0.512   0.980  1.32     1.34 
+#>  7 Adrian Sutil   2011  0.503   0.557   1.02   1.44     1.51 
+#>  8 Adrian Sutil   2012 -0.0572  0.0198  0.677  1.34     1.39 
+#>  9 Adrian Sutil   2013  0.0331  0.0794  0.521  0.976    1.03 
+#> 10 Adrian Sutil   2014 -1.01   -0.958  -0.354  0.0139   0.150
+#> # … with 1,093 more rows
+```
+
+``` r
+## example visualization 
+drivers_use <- c("Michael Schumacher", "Lewis Hamilton", "Sebastian Vettel", "Kimi Räikkönen")
+
+## plot using ggplot()
+rating %>% 
+    filter(driver %in% drivers_use) %>% 
+    ggplot(aes(x = year, y = `50%`)) + 
+        geom_ribbon(aes(ymin = `5%`, ymax = `95%`), alpha = 0.3) + 
+        geom_line() + 
+        geom_point(size = 0.7) + 
+        theme_bw() + 
+        labs(y = "Rating", x = '') + 
+        facet_wrap(~driver, ncol = 4) + 
+        ylim(-2, 8) + 
+        xlim(1984, 2019)
+```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+
+### Assessing the estimates
+
+``` r
+## load coda package 
+require(coda)
+#> Loading required package: coda
+
+## convert estimates to the MCMC object 
+mcmc_obj <- get_mcmc(fit)
+
+## who is the first driver in the data?
+names(mcmc_obj)[1]
+#> [1] "Adrian Campos"
+
+## plot the first driver's rating estimate 
+plot(mcmc_obj[[1]])
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+
+``` r
+
+## plot the autocorrelation 
+autocorr.plot(mcmc_obj[[1]])
+```
+
+<img src="man/figures/README-unnamed-chunk-9-2.png" width="100%" />
+
+``` r
+
+## geweke plot 
+geweke.plot(mcmc_obj[[1]])
+```
+
+<img src="man/figures/README-unnamed-chunk-9-3.png" width="100%" />
