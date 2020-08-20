@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# dyRank
+# dyRank: Dynamic Rating Estimation for Ranked Data
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/soichiroy/dyRank.svg?branch=master)](https://travis-ci.org/soichiroy/dyRank)

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dyRank
+# dyRank: Dynamic Rating Estimation for Ranked Data
 
 <!-- badges: start -->
 
