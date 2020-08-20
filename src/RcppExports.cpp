@@ -7,38 +7,38 @@
 using namespace Rcpp;
 
 // dyRank_gibbs
-void dyRank_gibbs(const std::vector<arma::imat>& dat, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, const int& id_driver_fix, std::vector<arma::mat>& lambda, std::vector<arma::mat>& c_mk, const int& trunc);
-RcppExport SEXP _dyRank_dyRank_gibbs(SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP id_driver_fixSEXP, SEXP lambdaSEXP, SEXP c_mkSEXP, SEXP truncSEXP) {
+void dyRank_gibbs(std::vector<arma::mat>& lambda, std::vector<arma::mat>& c_mk, const std::vector<arma::imat>& dat, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, const int& id_driver_fix, const int& trunc);
+RcppExport SEXP _dyRank_dyRank_gibbs(SEXP lambdaSEXP, SEXP c_mkSEXP, SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP id_driver_fixSEXP, SEXP truncSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type c_mk(c_mkSEXP);
     Rcpp::traits::input_parameter< const std::vector<arma::imat>& >::type dat(datSEXP);
     Rcpp::traits::input_parameter< const arma::imat& >::type race_attr(race_attrSEXP);
     Rcpp::traits::input_parameter< const std::vector<arma::ivec>& >::type driver_attr(driver_attrSEXP);
     Rcpp::traits::input_parameter< const int& >::type id_driver_fix(id_driver_fixSEXP);
-    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type lambda(lambdaSEXP);
-    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type c_mk(c_mkSEXP);
     Rcpp::traits::input_parameter< const int& >::type trunc(truncSEXP);
-    dyRank_gibbs(dat, race_attr, driver_attr, id_driver_fix, lambda, c_mk, trunc);
+    dyRank_gibbs(lambda, c_mk, dat, race_attr, driver_attr, id_driver_fix, trunc);
     return R_NilValue;
 END_RCPP
 }
 // dyRank_cpp
-Rcpp::List dyRank_cpp(const std::vector<arma::imat>& dat, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, std::vector<arma::mat>& lambda, std::vector<arma::mat>& c_mk, const int& mcmc, const int& burnin, const int& thin, const int& id_driver_fix, const int& trunc);
-RcppExport SEXP _dyRank_dyRank_cpp(SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP lambdaSEXP, SEXP c_mkSEXP, SEXP mcmcSEXP, SEXP burninSEXP, SEXP thinSEXP, SEXP id_driver_fixSEXP, SEXP truncSEXP) {
+Rcpp::List dyRank_cpp(std::vector<arma::mat>& lambda, std::vector<arma::mat>& c_mk, const std::vector<arma::imat>& dat, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, const int& mcmc, const int& burnin, const int& thin, const int& id_driver_fix, const int& trunc);
+RcppExport SEXP _dyRank_dyRank_cpp(SEXP lambdaSEXP, SEXP c_mkSEXP, SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP mcmcSEXP, SEXP burninSEXP, SEXP thinSEXP, SEXP id_driver_fixSEXP, SEXP truncSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type c_mk(c_mkSEXP);
     Rcpp::traits::input_parameter< const std::vector<arma::imat>& >::type dat(datSEXP);
     Rcpp::traits::input_parameter< const arma::imat& >::type race_attr(race_attrSEXP);
     Rcpp::traits::input_parameter< const std::vector<arma::ivec>& >::type driver_attr(driver_attrSEXP);
-    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type lambda(lambdaSEXP);
-    Rcpp::traits::input_parameter< std::vector<arma::mat>& >::type c_mk(c_mkSEXP);
     Rcpp::traits::input_parameter< const int& >::type mcmc(mcmcSEXP);
     Rcpp::traits::input_parameter< const int& >::type burnin(burninSEXP);
     Rcpp::traits::input_parameter< const int& >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< const int& >::type id_driver_fix(id_driver_fixSEXP);
     Rcpp::traits::input_parameter< const int& >::type trunc(truncSEXP);
-    rcpp_result_gen = Rcpp::wrap(dyRank_cpp(dat, race_attr, driver_attr, lambda, c_mk, mcmc, burnin, thin, id_driver_fix, trunc));
+    rcpp_result_gen = Rcpp::wrap(dyRank_cpp(lambda, c_mk, dat, race_attr, driver_attr, mcmc, burnin, thin, id_driver_fix, trunc));
     return rcpp_result_gen;
 END_RCPP
 }

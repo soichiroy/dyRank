@@ -65,11 +65,11 @@ dyRank <- function(
   ## MCMC 
   ## 
   fit <- dyRank_cpp(
+    lambda      = params,
+    c_mk        = c_mk,
     dat         = dd$dat_driver,
     race_attr   = dd$race_attr,
     driver_attr = dd$driver_attr,
-    lambda      = params,
-    c_mk        = c_mk,
     mcmc = mcmc, burnin = burnin, thin = thin, 
     id_driver_fix = id_driver_fix,
     trunc         = truncation

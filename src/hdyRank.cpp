@@ -62,13 +62,6 @@ void hdyRank_gibbs(
     
     // Rcpp::Rcout << "Done with driver" << i << std::endl;
   }
-  
-  
-  // return Rcpp::List::create(
-  //   Rcpp::Named("sigma")  = sigma, 
-  //   Rcpp::Named("lambda") = lambda,
-  //   Rcpp::Named("lambda_mean") = lambda_mean
-  // );
 }
 
 

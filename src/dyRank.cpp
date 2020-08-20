@@ -5,12 +5,12 @@
 // single iteration 
 // [[Rcpp::export]]
 void dyRank_gibbs(
+        std::vector<arma::mat>  &lambda,
+        std::vector<arma::mat>  &c_mk,
   const std::vector<arma::imat> &dat, 
   const arma::imat              &race_attr,  
   const std::vector<arma::ivec> &driver_attr,
   const int                     &id_driver_fix,
-        std::vector<arma::mat>  &lambda,
-        std::vector<arma::mat>  &c_mk,
   const int                     &trunc              
 ) {
   
@@ -50,16 +50,16 @@ void dyRank_gibbs(
 // dyRank Rcpp version 
 // [[Rcpp::export]]
 Rcpp::List dyRank_cpp(
+        std::vector<arma::mat>  &lambda,
+        std::vector<arma::mat>  &c_mk,
   const std::vector<arma::imat> &dat, 
   const arma::imat              &race_attr,  
   const std::vector<arma::ivec> &driver_attr,
-        std::vector<arma::mat>  &lambda,
-        std::vector<arma::mat>  &c_mk,
-  const int &mcmc,
-  const int &burnin,
-  const int &thin,
-  const int &id_driver_fix,
-  const int &trunc
+  const int                     &mcmc,
+  const int                     &burnin,
+  const int                     &thin,
+  const int                     &id_driver_fix,
+  const int                     &trunc
 ) {
   
   int total_iter = mcmc + burnin;
@@ -67,8 +67,8 @@ Rcpp::List dyRank_cpp(
   for (int iter = 0; iter < total_iter; ++iter) {
     // update parameters 
     dyRank_gibbs(
-      dat, race_attr, driver_attr, id_driver_fix,
-      lambda, c_mk, trunc
+      lambda, c_mk, 
+      dat, race_attr, driver_attr, id_driver_fix, trunc
     );
     
     // save
