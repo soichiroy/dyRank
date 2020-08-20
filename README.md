@@ -57,6 +57,9 @@ f1_race
 ### Estimate rating
 
 ``` r
+## set seed
+set.seed(1234)
+
 ## estimate via MCMC 
 fit <- dyRank(
     data       = f1_race, 
@@ -161,18 +164,18 @@ rating <- get_rating(fit)
 ## view the estimates 
 rating
 #> # A tibble: 1,103 x 7
-#>    driver         year `2.5%`   `5%`   `50%`  `95%` `97.5%`
-#>    <chr>         <int>  <dbl>  <dbl>   <dbl>  <dbl>   <dbl>
-#>  1 Adrian Campos  1987 -1.42  -1.32  -0.584   0.424  0.631 
-#>  2 Adrian Campos  1988 -2.00  -1.89  -0.705   0.324  0.434 
-#>  3 Adrian Sutil   2007 -1.33  -1.22  -0.755  -0.192 -0.0966
-#>  4 Adrian Sutil   2008 -1.30  -1.23  -0.573  -0.181 -0.0922
-#>  5 Adrian Sutil   2009 -0.530 -0.456  0.101   0.553  0.594 
-#>  6 Adrian Sutil   2010  0.131  0.315  0.895   1.38   1.47  
-#>  7 Adrian Sutil   2011  0.535  0.580  1.01    1.39   1.65  
-#>  8 Adrian Sutil   2012  0.162  0.189  0.877   1.45   1.65  
-#>  9 Adrian Sutil   2013  0.183  0.222  0.639   0.995  1.07  
-#> 10 Adrian Sutil   2014 -0.734 -0.607 -0.0505  0.561  0.752 
+#>    driver         year  `2.5%`    `5%`   `50%`  `95%` `97.5%`
+#>    <chr>         <int>   <dbl>   <dbl>   <dbl>  <dbl>   <dbl>
+#>  1 Adrian Campos  1987 -1.67   -1.58   -0.591   0.207   0.437
+#>  2 Adrian Campos  1988 -2.28   -1.99   -0.777   0.342   0.423
+#>  3 Adrian Sutil   2007 -1.88   -1.63   -0.682  -0.175  -0.113
+#>  4 Adrian Sutil   2008 -1.36   -1.28   -0.516   0.203   0.301
+#>  5 Adrian Sutil   2009 -0.813  -0.638   0.0959  0.726   0.802
+#>  6 Adrian Sutil   2010  0.201   0.332   0.932   1.45    1.49 
+#>  7 Adrian Sutil   2011  0.430   0.485   1.11    1.64    1.66 
+#>  8 Adrian Sutil   2012 -0.0784 -0.0519  0.932   1.61    1.69 
+#>  9 Adrian Sutil   2013 -0.0915 -0.0614  0.710   1.27    1.28 
+#> 10 Adrian Sutil   2014 -1.08   -0.881  -0.108   0.557   0.589
 #> # … with 1,093 more rows
 ```
 

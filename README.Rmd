@@ -57,6 +57,9 @@ f1_race
 
 
 ```{r eval=TRUE, cache=TRUE}
+## set seed
+set.seed(1234)
+
 ## estimate via MCMC 
 fit <- dyRank(
 	data       = f1_race, 
