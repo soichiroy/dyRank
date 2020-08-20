@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `dyRank` is to estimate the dynamic rating of players based on rank-ordered data 
+The goal of `dyRank` is to estimate the dynamic rating of items, players or students based on rank-ordered data 
 with time-index.
 
 ## Installation
