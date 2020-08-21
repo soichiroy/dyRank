@@ -213,13 +213,14 @@ plot(mcmc_obj[[1]])
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
-``` r
+#### Checking covergence with Geweke statistics
 
+``` r
 ## plot the autocorrelation 
 autocorr.plot(mcmc_obj[[1]])
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
 ``` r
 
@@ -227,4 +228,66 @@ autocorr.plot(mcmc_obj[[1]])
 geweke.plot(mcmc_obj[[1]])
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-3.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-2.png" width="100%" />
+
+### Running with Multiple Chains
+
+``` r
+## load additional package for parallel
+require(furrr)
+
+## setup parallel 
+plan(multiprocess)
+
+## run with multiple chains 
+n_chains <- 3
+set.seed(1234)
+fit_nchains <- future_map(1:n_chains, function(chains) {
+    fit_tmp <- dyRank(
+        data       = f1_race, 
+        var_rank   = "Pos",           
+        var_player = "driver", 
+        var_match  = "GP",
+        var_time   = "year",
+        driver_fix = "Timo Glock",
+        mcmc = 100, burnin = 10, thin = 1,
+        truncation = 3
+    )
+}, .options = future_options(seed = TRUE))
+```
+
+``` r
+## summarize results 
+d1_mcmc <- map(fit_nchains, ~get_mcmc(.x))
+
+## gelman rubin statistics 
+coda::gelman.plot(
+    mcmc.list(d1_mcmc[[1]][[1]], d1_mcmc[[2]][[1]], d1_mcmc[[3]][[1]])
+)
+```
+
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+
+## Example: Multiple Ranking Types
+
+``` r
+## load additional data 
+data("f1_grid", package = "dyRank")
+data("f1_laptime", package = "dyRank")
+
+## prepare data 
+f1_all <- bind_rows(f1_race, f1_grid, f1_laptime)
+
+## fit hierarhcal model
+set.seed(1234)
+fit_hier <- hdyRank(
+    data       = f1_all,
+    var_rank   = "Pos",           
+    var_player = "driver", 
+    var_match  = "GP",
+    var_time   = "year",
+    var_rank_type = "rank_type",
+    driver_fix = "Timo Glock",
+    mcmc = 10, burnin = 10, thin = 1
+)
+```
