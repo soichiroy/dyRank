@@ -256,6 +256,8 @@ fit_nchains <- future_map(1:n_chains, function(chains) {
 }, .options = future_options(seed = TRUE))
 ```
 
+#### Gelman-Rubin statistic
+
 ``` r
 ## summarize results 
 d1_mcmc <- map(fit_nchains, ~get_mcmc(.x))
@@ -272,6 +274,7 @@ coda::gelman.plot(
 
 ``` r
 ## load additional data 
+## see ?f1_grid and ?f1_laptime for the details 
 data("f1_grid", package = "dyRank")
 data("f1_laptime", package = "dyRank")
 
