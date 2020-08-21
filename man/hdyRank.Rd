@@ -2,7 +2,7 @@
 % Please edit documentation in R/hdyRank.R
 \name{hdyRank}
 \alias{hdyRank}
-\title{Hierarchical Dynamic Rating}
+\title{Hierarchical Dynamic Rating Estimation for Ranked Data}
 \usage{
 hdyRank(data, var_rank, var_player, var_match, var_time, var_rank_type,
   driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3)
@@ -31,5 +31,7 @@ hdyRank(data, var_rank, var_player, var_match, var_time, var_rank_type,
 \item{n_chains}{The number of MCMC chains.}
 }
 \description{
-Hierarchical Dynamic Rating
+\code{hdyRank()} implements the hierarhical dynamic Plackett-Luce model
+ for estimating the rating based on rank-ordered data. 
+ Different from \code{dyRank()}, \code{hdyRank()} can handle multiple types of ranking data.
 }

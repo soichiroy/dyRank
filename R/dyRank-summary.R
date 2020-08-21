@@ -8,7 +8,8 @@
 #' @importFrom purrr map 
 #' @importFrom furrr future_map_dfr 
 get_rating <- function(obj) {
-	if (!("dyRank.fit" %in% class(obj))) stop("Not a supported input.")
+  if (!("dyRank.fit" %in% class(obj))) stop("Not a supported input.")
+
 	
 	# register the parallel computing 
 	# plan(multiprocess)
@@ -32,6 +33,8 @@ get_rating <- function(obj) {
 	  return(est)
 	})
 	
+  
+  class(est_all) <- c(class(est_all), "dyRank.summary")
 	return(est_all)	
 }
 
@@ -44,7 +47,8 @@ get_rating <- function(obj) {
 #' @importFrom future plan multiprocess
 #' @export
 get_mcmc <- function(obj) {
-	
+
+  if (!("dyRank.fit" %in% class(obj))) stop("Not a supported input.")	
 	# register the parallel computing 
 	# plan(multiprocess)
 
@@ -68,4 +72,53 @@ get_mcmc <- function(obj) {
 	names(est_mcmc) <- drivers
 	
 	return(est_mcmc)
+}
+
+#' Plot rating estimates 
+#' @export
+#' @param obj An output 
+#' @importFrom dplyr %>% filter as_tibble
+#' @import ggplot2
+#' @importFrom purrr map
+plot_rating <- function(obj, facet = FALSE, driver_name = NULL,
+  y_label = "", x_label = "", ncol = 3
+) {
+  
+  ## obtain summary estimate 
+  if ("dyRank.fit" %in% class(obj)) {
+    est <- get_rating(obj)
+  } else if ("dyRank.summary" %in% class(obj)) {
+    est <- obj 
+  } else {
+    stop("Not a supported input!")
+  }
+  
+  ## subset if names are provided 
+  if (!is.null(driver_name)) {
+    est <- as_tibble(est) %>% filter(driver %in% driver_name)
+  }
+  
+  ## generate plot 
+  if (isTRUE(facet)) {
+    g <- ggplot(est, aes(x = year, y = `50%`)) + 
+          geom_ribbon(aes(ymin = `5%`, ymax = `95%`), alpha = 0.3) + 
+          geom_line() + 
+          geom_point(size = 0.7) + 
+          theme_bw() + 
+          labs(y = y_label, x = x_label) + 
+          facet_wrap(~driver, ncol = ncol)
+  } else {
+    driver_unique <- unique(est$driver)
+    g <- map(driver_unique, ~ est %>% filter(driver == .x) %>% 
+         ggplot(est, aes(x = year, y = `50%`)) + 
+              geom_ribbon(aes(ymin = `5%`, ymax = `95%`), alpha = 0.3) + 
+              geom_line() + 
+              geom_point(size = 0.7) + 
+              theme_bw() + 
+              labs(y = y_label, x = x_label)
+        )
+    names(g) <- driver_unique
+  }
+  
+  return(g)
 }

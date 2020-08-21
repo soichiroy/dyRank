@@ -130,18 +130,10 @@ rating
 ## example visualization 
 drivers_use <- c("Michael Schumacher", "Lewis Hamilton", "Sebastian Vettel", "Kimi Räikkönen")
 
-## plot using ggplot()
-rating %>% 
-	filter(driver %in% drivers_use) %>% 
-	ggplot(aes(x = year, y = `50%`)) + 
-		geom_ribbon(aes(ymin = `5%`, ymax = `95%`), alpha = 0.3) + 
-		geom_line() + 
-		geom_point(size = 0.7) + 
-		theme_bw() + 
-		labs(y = "Rating", x = '') + 
-		facet_wrap(~driver, ncol = 4) + 
-		ylim(-2, 8) + 
-		xlim(1984, 2019)
+## plot rating with plot_rating()
+gg <- plot_rating(rating, facet = TRUE, ncol = 4, driver_name = drivers_use)
+gg + ylim(-2, 8) + 
+	xlim(1984, 2019)
 ```
 
 
