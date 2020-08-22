@@ -41,17 +41,14 @@ As an example, we use `f1_race` data in the `dyRank` package.
 ## load package 
 require(dyRank)
 require(tidyverse)
+require(knitr)
 ```
 
 
 ```{R}
 ## load data 
+## see ?f1_race for the details of this dataset
 data("f1_race", package = "dyRank")
-
-## see ?f1_race for the details of this dataset.
-
-## view data 
-f1_race
 ```
 
 
@@ -109,7 +106,11 @@ length(fit$lambda[[1]][[1]])
 
 ```{r}
 ## formatted data used for the estimation 
-fit$data$dat_ref
+dim(fit$data$dat_ref)
+
+slice_head(as_tibble(fit$data$dat_ref), n = 5) %>% 
+	knitr::kable(digits = 3)
+
 
 ## global information
 fit$data$n_drivers
@@ -124,7 +125,8 @@ fit$data$n_race
 rating <- get_rating(fit)
 
 ## view the estimates 
-rating
+slice_head(as_tibble(rating), n = 5) %>% 
+	knitr::kable(digits = 3)
 ```
 
 ```{r, fig.width=7, fig.height=3}
@@ -226,9 +228,6 @@ a user can use `plot_raing()` function to visualize the estimates as in the case
 ```{r}
 ## summarise estimates by combining chains 
 m_summary <- bind_chains(fit_nchains, summarize = TRUE)
-
-## view the output 
-m_summary
 
 ## class 
 class(m_summary)
