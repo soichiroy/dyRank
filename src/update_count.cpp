@@ -111,6 +111,7 @@ void update_counts(
 //' @param dat A matrix 
 //' @param lambda A matrix of new values of λ
 //' @param race_attr A matrix of race attributes.
+//' @keywords internal
 // [[Rcpp::export]]
 std::vector<arma::mat> initialize_counts(
   const std::vector<arma::imat> &dat, 
