@@ -29,8 +29,6 @@ hdyRank(data, var_rank, var_player, var_match, var_time, var_rank_type,
 \item{thin}{Thinning.}
 
 \item{truncation}{A truncation parameter.}
-
-\item{n_chains}{The number of MCMC chains.}
 }
 \description{
 \code{hdyRank()} implements the hierarhical dynamic Plackett-Luce model

@@ -12,7 +12,6 @@
 #' @importFrom purrr map 
 #' @inheritParams dyRank
 #' @param var_rank_type A variable name of rank types.
-#' @param n_chains The number of MCMC chains. 
 hdyRank <- function(
  data, var_rank, var_player, var_match, var_time, var_rank_type,
   driver_fix, mcmc = 100, burnin = 10, thin = 1, 
