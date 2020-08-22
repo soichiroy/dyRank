@@ -6,14 +6,16 @@
 // single iteration 
 // [[Rcpp::export]]
 void hdyRank_gibbs(
+        std::vector<arma::mat>  &lambda,
+        std::vector<arma::vec>  &lambda_mean,
+        std::vector<arma::mat>  &sigma,
+        std::vector<arma::mat>  &c_mk,
   const std::vector<arma::imat> &dat, 
   const arma::imat              &race_attr,  
   const std::vector<arma::ivec> &driver_attr,
   const int                     &id_driver_fix,
-        std::vector<arma::mat>  &lambda,
-        std::vector<arma::vec>  &lambda_mean,
-        std::vector<arma::mat>  &sigma,
-        std::vector<arma::mat>  &c_mk        
+  const int                     &trunc
+
 ) {
   
   // info 
@@ -34,7 +36,7 @@ void hdyRank_gibbs(
     // data augmentation & update c_mk 
     // Rcpp::Rcout << "Updating moments ..." << std::endl;
     Rcpp::List moments = update_moments(
-      dat[i], race_attr, driver_attr[i], lambda[i], c_mk
+      dat[i], race_attr, driver_attr[i], lambda[i], c_mk, trunc
     );
     
     // sample λ
@@ -57,7 +59,7 @@ void hdyRank_gibbs(
     // update counts
     // Rcpp::Rcout << "Updating counts ..." << std::endl;    
     update_counts(
-      dat[i], lambda[i], race_attr, driver_attr[i], c_mk
+      dat[i], lambda[i], race_attr, driver_attr[i], c_mk, trunc
     );
     
     // Rcpp::Rcout << "Done with driver" << i << std::endl;
@@ -70,17 +72,18 @@ void hdyRank_gibbs(
 // dyRank Rcpp version 
 // [[Rcpp::export]]
 Rcpp::List hdyRank_cpp(
-  const std::vector<arma::imat> &dat, 
-  const arma::imat              &race_attr,  
-  const std::vector<arma::ivec> &driver_attr,
         std::vector<arma::mat>  &lambda,
         std::vector<arma::vec>  &lambda_mean,
         std::vector<arma::mat>  &sigma,
         std::vector<arma::mat>  &c_mk,
+  const std::vector<arma::imat> &dat, 
+  const arma::imat              &race_attr,  
+  const std::vector<arma::ivec> &driver_attr,
   const int &mcmc,
   const int &burnin,
   const int &thin,
-  const int &id_driver_fix
+  const int &id_driver_fix,
+  const int &trunc
 ) {
   
   int total_iter = mcmc + burnin;
@@ -90,8 +93,8 @@ Rcpp::List hdyRank_cpp(
   for (int iter = 0; iter < total_iter; ++iter) {
     // update parameters 
     hdyRank_gibbs(
-      dat, race_attr, driver_attr, id_driver_fix,
-      lambda, lambda_mean, sigma, c_mk
+      lambda, lambda_mean, sigma, c_mk,
+      dat, race_attr, driver_attr, id_driver_fix, trunc
     );
     
     // save
