@@ -157,7 +157,7 @@ fit$data$n_race
 #> [1] 630
 ```
 
-### Obtaining the summary estimates
+### Obtaining the estimated rating via `get_rating()`
 
 ``` r
 ## get the summary of rating 
@@ -192,7 +192,7 @@ gg + ylim(-2, 8) + xlim(1984, 2019)
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
-### Assessing estimates and convergence
+### Assessing convergence via `get_mcmc()` and `coda` package
 
 ``` r
 ## load coda package 
@@ -231,6 +231,15 @@ coda::geweke.plot(mcmc_obj[[1]])
 
 ### Running with Multiple Chains
 
+`dyRank` package provides a function `bind_chains()` to work with
+multiple chains.
+
+  - Store multiple chains as a list
+  - `bind_chains()` with `summarize = FALSE` behaves like `get_mcmc()`
+  - `bind_chains()` with `summarize = behaves` like `get_rating()`
+
+<!-- end list -->
+
 ``` r
 ## load additional package for parallel
 require(furrr)
@@ -238,7 +247,7 @@ require(furrr)
 ## setup parallel 
 plan(multiprocess)
 
-## run with multiple chains 
+## run with multiple chains and store output as a list
 n_chains <- 3
 set.seed(1234)
 fit_nchains <- future_map(1:n_chains, function(chains) {
@@ -257,6 +266,12 @@ fit_nchains <- future_map(1:n_chains, function(chains) {
 
 #### Gelman-Rubin statistic
 
+Multiple chains are requires to comute the Gelman-Rubin statistics
+(`gelman.diag()` and `gelman.plot()` in `coda` package). `bind_chains()`
+returns a list of `mcmc.list` object where each element of the returned
+list corresponds to a `mcmc.list` object for each player (i.e., each
+level of `var_player`).
+
 ``` r
 ## combine estimates into a single mcmc.list 
 m_list <- bind_chains(fit_nchains)
@@ -267,7 +282,13 @@ coda::gelman.plot(m_list[[1]])
 
 <img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
 
-#### Summary of estimates
+#### Estimated rating (all chains combined)
+
+We can obtain the summary statistics of the estimated rating by
+specifying `summarize = TRUE` option in `bind_chains()` function. As
+`bind_chains()` with `summarize = TRUE` option returns an object of
+`dyRank.summary` class, a user can use `plot_raing()` function to
+visualize the estimates as in the case of a single chain.
 
 ``` r
 ## summarise estimates by combining chains 
@@ -289,6 +310,10 @@ m_summary
 #>  9 Adrian Sutil   2013  0.0275  0.0703  0.619   1.08   1.14  
 #> 10 Adrian Sutil   2014 -0.844  -0.765  -0.164   0.316  0.434 
 #> # … with 1,093 more rows
+
+## class 
+class(m_summary)
+#> [1] "tbl_df"         "tbl"            "data.frame"     "dyRank.summary"
 ```
 
 ## Example: Multiple Ranking Types
