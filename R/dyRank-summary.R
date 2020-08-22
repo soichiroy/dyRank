@@ -80,7 +80,8 @@ get_mcmc <- function(obj) {
 #' @importFrom dplyr %>% filter as_tibble
 #' @import ggplot2
 #' @importFrom purrr map
-plot_rating <- function(obj, facet = FALSE, driver_name = NULL,
+plot_rating <- function(obj, 
+  facet = FALSE, driver_name = NULL,
   y_label = "", x_label = "", ncol = 3
 ) {
   
