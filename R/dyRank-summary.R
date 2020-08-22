@@ -165,11 +165,12 @@ bind_chains <- function(obj, summarize = FALSE) {
 		  	select(driver, year, everything())
 		  return(est)
 		})
+    
+    ## class 
+    class(est_all) <- c(class(est_all), "dyRank.summary")  
 	} else {
 		est_all <- out_mcmc_list
 	}
-	## class 
-	class(est_all) <- c(class(est_all), "dyRank.summary")
+	
 	return(est_all)
-
 }
