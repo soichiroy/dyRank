@@ -9,12 +9,12 @@ dyRank_cpp <- function(lambda, c_mk, dat, race_attr, driver_attr, mcmc, burnin, 
     .Call(`_dyRank_dyRank_cpp`, lambda, c_mk, dat, race_attr, driver_attr, mcmc, burnin, thin, id_driver_fix, trunc)
 }
 
-hdyRank_gibbs <- function(dat, race_attr, driver_attr, id_driver_fix, lambda, lambda_mean, sigma, c_mk) {
-    invisible(.Call(`_dyRank_hdyRank_gibbs`, dat, race_attr, driver_attr, id_driver_fix, lambda, lambda_mean, sigma, c_mk))
+hdyRank_gibbs <- function(lambda, lambda_mean, sigma, c_mk, dat, race_attr, driver_attr, id_driver_fix, trunc) {
+    invisible(.Call(`_dyRank_hdyRank_gibbs`, lambda, lambda_mean, sigma, c_mk, dat, race_attr, driver_attr, id_driver_fix, trunc))
 }
 
-hdyRank_cpp <- function(dat, race_attr, driver_attr, lambda, lambda_mean, sigma, c_mk, mcmc, burnin, thin, id_driver_fix) {
-    .Call(`_dyRank_hdyRank_cpp`, dat, race_attr, driver_attr, lambda, lambda_mean, sigma, c_mk, mcmc, burnin, thin, id_driver_fix)
+hdyRank_cpp <- function(lambda, lambda_mean, sigma, c_mk, dat, race_attr, driver_attr, mcmc, burnin, thin, id_driver_fix, trunc) {
+    .Call(`_dyRank_hdyRank_cpp`, lambda, lambda_mean, sigma, c_mk, dat, race_attr, driver_attr, mcmc, burnin, thin, id_driver_fix, trunc)
 }
 
 pgdraw_rcpp <- function(b, c) {
