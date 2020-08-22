@@ -54,7 +54,7 @@ f1_race
 ```
 
 
-### Estimate rating 
+### Estimate rating via `dyRank()`
 
 
 ```{r eval=TRUE, cache=TRUE}
@@ -158,10 +158,10 @@ plot(mcmc_obj[[1]])
 
 ```{r fig.height=4, fig.width=7}
 ## plot the autocorrelation 
-autocorr.plot(mcmc_obj[[1]])
+coda::autocorr.plot(mcmc_obj[[1]])
 
 ## geweke plot 
-geweke.plot(mcmc_obj[[1]])
+coda::geweke.plot(mcmc_obj[[1]])
 ```
 
 
@@ -195,13 +195,22 @@ fit_nchains <- future_map(1:n_chains, function(chains) {
 #### Gelman-Rubin statistic
 
 ```{r, fig.height=4, fig.width=7}
-## summarize results 
-d1_mcmc <- map(fit_nchains, ~get_mcmc(.x))
+## combine estimates into a single mcmc.list 
+m_list <- bind_chains(fit_nchains)
 
-## gelman rubin statistics 
-coda::gelman.plot(
-	mcmc.list(d1_mcmc[[1]][[1]], d1_mcmc[[2]][[1]], d1_mcmc[[3]][[1]])
-)
+## gelman rubin statistics (for the first driver)
+coda::gelman.plot(m_list[[1]])
+```
+
+#### Summary of estimates 
+
+
+```{r}
+## summarise estimates by combining chains 
+m_summary <- bind_chains(fit_nchains, summarize = TRUE)
+
+## view the output 
+m_summary
 ```
 
 ## Example: Multiple Ranking Types

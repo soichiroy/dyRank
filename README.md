@@ -56,7 +56,7 @@ f1_race
 #> # … with 14,027 more rows
 ```
 
-### Estimate rating
+### Estimate rating via `dyRank()`
 
 ``` r
 ## set seed
@@ -216,7 +216,7 @@ plot(mcmc_obj[[1]])
 
 ``` r
 ## plot the autocorrelation 
-autocorr.plot(mcmc_obj[[1]])
+coda::autocorr.plot(mcmc_obj[[1]])
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
@@ -224,7 +224,7 @@ autocorr.plot(mcmc_obj[[1]])
 ``` r
 
 ## geweke plot 
-geweke.plot(mcmc_obj[[1]])
+coda::geweke.plot(mcmc_obj[[1]])
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-2.png" width="100%" />
@@ -258,16 +258,38 @@ fit_nchains <- future_map(1:n_chains, function(chains) {
 #### Gelman-Rubin statistic
 
 ``` r
-## summarize results 
-d1_mcmc <- map(fit_nchains, ~get_mcmc(.x))
+## combine estimates into a single mcmc.list 
+m_list <- bind_chains(fit_nchains)
 
-## gelman rubin statistics 
-coda::gelman.plot(
-    mcmc.list(d1_mcmc[[1]][[1]], d1_mcmc[[2]][[1]], d1_mcmc[[3]][[1]])
-)
+## gelman rubin statistics (for the first driver)
+coda::gelman.plot(m_list[[1]])
 ```
 
 <img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" />
+
+#### Summary of estimates
+
+``` r
+## summarise estimates by combining chains 
+m_summary <- bind_chains(fit_nchains, summarize = TRUE)
+
+## view the output 
+m_summary
+#> # A tibble: 1,103 x 7
+#>    driver         year  `2.5%`    `5%`   `50%`  `95%` `97.5%`
+#>    <chr>         <int>   <dbl>   <dbl>   <dbl>  <dbl>   <dbl>
+#>  1 Adrian Campos  1987 -1.81   -1.62   -0.518   0.420  0.595 
+#>  2 Adrian Campos  1988 -2.14   -1.89   -0.722   0.322  0.516 
+#>  3 Adrian Sutil   2007 -1.55   -1.45   -0.807  -0.284 -0.213 
+#>  4 Adrian Sutil   2008 -1.35   -1.24   -0.670  -0.112  0.0272
+#>  5 Adrian Sutil   2009 -0.526  -0.469   0.0452  0.595  0.721 
+#>  6 Adrian Sutil   2010  0.252   0.308   0.766   1.35   1.53  
+#>  7 Adrian Sutil   2011  0.423   0.493   0.991   1.47   1.55  
+#>  8 Adrian Sutil   2012 -0.0521  0.0697  0.780   1.52   1.61  
+#>  9 Adrian Sutil   2013  0.0275  0.0703  0.619   1.08   1.14  
+#> 10 Adrian Sutil   2014 -0.844  -0.765  -0.164   0.316  0.434 
+#> # … with 1,093 more rows
+```
 
 ## Example: Multiple Ranking Types
 
@@ -321,4 +343,4 @@ gg <- plot_rating(rating_hier, facet = TRUE, ncol = 4, driver_name = drivers_use
 gg + ylim(-2, 8) + xlim(1984, 2019)
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
