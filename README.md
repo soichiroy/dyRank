@@ -276,23 +276,6 @@ visualize the estimates as in the case of a single chain.
 ## summarise estimates by combining chains 
 m_summary <- bind_chains(fit_nchains, summarize = TRUE)
 
-## view the output 
-m_summary
-#> # A tibble: 1,103 x 7
-#>    driver         year  `2.5%`    `5%`   `50%`  `95%` `97.5%`
-#>    <chr>         <int>   <dbl>   <dbl>   <dbl>  <dbl>   <dbl>
-#>  1 Adrian Campos  1987 -1.81   -1.62   -0.518   0.420  0.595 
-#>  2 Adrian Campos  1988 -2.14   -1.89   -0.722   0.322  0.516 
-#>  3 Adrian Sutil   2007 -1.55   -1.45   -0.807  -0.284 -0.213 
-#>  4 Adrian Sutil   2008 -1.35   -1.24   -0.670  -0.112  0.0272
-#>  5 Adrian Sutil   2009 -0.526  -0.469   0.0452  0.595  0.721 
-#>  6 Adrian Sutil   2010  0.252   0.308   0.766   1.35   1.53  
-#>  7 Adrian Sutil   2011  0.423   0.493   0.991   1.47   1.55  
-#>  8 Adrian Sutil   2012 -0.0521  0.0697  0.780   1.52   1.61  
-#>  9 Adrian Sutil   2013  0.0275  0.0703  0.619   1.08   1.14  
-#> 10 Adrian Sutil   2014 -0.844  -0.765  -0.164   0.316  0.434 
-#> # … with 1,093 more rows
-
 ## class 
 class(m_summary)
 #> [1] "tbl_df"         "tbl"            "data.frame"     "dyRank.summary"
