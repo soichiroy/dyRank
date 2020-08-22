@@ -16,7 +16,7 @@ jobs:
         run: |
           install.packages("remotes")
           remotes::install_local(".")
-          remotes::install_cran(c("rmarkdown", "tidyverse"))
+          remotes::install_cran(c("rmarkdown", "tidyverse", "knitr"))
           remotes::install_github("soichiroy/dyRank", dependencies = TRUE)
         shell: Rscript {0}
       - name: Render README
