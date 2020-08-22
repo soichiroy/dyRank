@@ -10,6 +10,7 @@
 #' @importFrom future plan multiprocess
 #' @importFrom coda as.mcmc as.mcmc.list 
 #' @importFrom purrr map 
+#' @importFrom rlang .data
 #' @inheritParams dyRank
 #' @param var_rank_type A variable name of rank types.
 hdyRank <- function(
@@ -35,8 +36,8 @@ hdyRank <- function(
   ## driver_fix 
   ##
   id_driver_fix <-  dd$dat_ref %>% 
-    filter(drivers == driver_fix) %>% 
-    pull(id_driver) %>% unique()
+    filter(.data$drivers == driver_fix) %>% 
+    pull(.data$id_driver) %>% unique()
   id_driver_fix <- id_driver_fix - 1 ## cpp code is zero indexed 
 
   ##

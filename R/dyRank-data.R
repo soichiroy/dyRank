@@ -7,7 +7,7 @@
 #' @importFrom dplyr %>% pull tibble mutate mutate_all select arrange summarise group_by
 #' @importFrom tidyr pivot_wider drop_na nest unite
 #' @importFrom purrr map 
-#' @importFrom rlang sym !!
+#' @importFrom rlang sym !! .data
 dyRank_data <- function(
   data, var_rank, var_player, var_match, var_time, var_rank_type = NULL
 ) {
@@ -53,21 +53,21 @@ dyRank_data <- function(
     id_race   = as.character(id_race),
     id_rank   = id_rank
   ) %>% 
-  unite("id_match", id_time, id_race, remove = FALSE) %>% 
-  mutate(id_match = as.numeric(as.factor(id_match)), 
-         id_time = as.numeric(id_time)) %>% 
+  unite("id_match", .data$id_time, .data$id_race, remove = FALSE) %>% 
+  mutate(id_match = as.numeric(as.factor(.data$id_match)), 
+         id_time = as.numeric(.data$id_time)) %>% 
   select(-id_race) %>% 
-  arrange(id_driver) %>% 
+  arrange(.data$id_driver) %>% 
   mutate_all(one_minus)
   
   ## get race attributes 
   ## matrix: id_match x id_rank (element: max_rank)
-  race_attr <- group_by(dat_tmp, id_rank, id_match) %>% 
-    summarise(max_rank = max(outcome)) %>% 
-    pivot_wider(id_cols = id_match, names_from = id_rank, values_from = max_rank)
+  race_attr <- group_by(dat_tmp, .data$id_rank, .data$id_match) %>% 
+    summarise(max_rank = max(.data$outcome)) %>% 
+    pivot_wider(id_cols = .data$id_match, names_from = .data$id_rank, values_from = .data$max_rank)
   
   ## process by drivers 
-  dat_nest <- group_by(dat_tmp, id_driver) %>% nest()
+  dat_nest <- group_by(dat_tmp, .data$id_driver) %>% nest()
   dat_driver <- dat_nest$data
   
   

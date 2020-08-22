@@ -10,6 +10,7 @@
 #' @importFrom future plan multiprocess
 #' @importFrom coda as.mcmc as.mcmc.list 
 #' @importFrom purrr map 
+#' @importFrom rlang .data
 #' @param data A data frame of \code{tibble} class. 
 #' @param var_rank A variable name of the outcome (ranking).
 #' @param var_player A variable name of the players.
@@ -44,8 +45,8 @@ dyRank <- function(
   ## driver_fix 
   ##
   id_driver_fix <-  dd$dat_ref %>% 
-    filter(drivers == driver_fix) %>% 
-    pull(id_driver) %>% unique()
+    filter(.data$drivers == driver_fix) %>% 
+    pull(.data$id_driver) %>% unique()
   id_driver_fix <- id_driver_fix - 1 ## cpp code is zero indexed 
 
   ## initialize parameters 
