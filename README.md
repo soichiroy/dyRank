@@ -187,13 +187,12 @@ drivers_use <- c("Michael Schumacher", "Lewis Hamilton", "Sebastian Vettel", "Ki
 
 ## plot rating with plot_rating()
 gg <- plot_rating(rating, facet = TRUE, ncol = 4, driver_name = drivers_use)
-gg + ylim(-2, 8) + 
-    xlim(1984, 2019)
+gg + ylim(-2, 8) + xlim(1984, 2019)
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
-### Assessing the estimates
+### Assessing estimates and convergence
 
 ``` r
 ## load coda package 
@@ -280,7 +279,11 @@ data("f1_laptime", package = "dyRank")
 
 ## prepare data 
 f1_all <- bind_rows(f1_race, f1_grid, f1_laptime)
+```
 
+### Estimate rating via `hdyRank()`
+
+``` r
 ## fit hierarhcal model
 set.seed(1234)
 fit_hier <- hdyRank(
@@ -291,6 +294,31 @@ fit_hier <- hdyRank(
     var_time   = "year",
     var_rank_type = "rank_type",
     driver_fix = "Timo Glock",
-    mcmc = 10, burnin = 10, thin = 1
+    mcmc = 100, burnin = 10, thin = 1, 
+    truncation = 5
 )
 ```
+
+**Arguments**
+
+  - `hdyRank()` inherits all the arguments specified in `dyRank()`.
+  - It takes the additional argument `var_rank_type`: A variable name
+    (in character) of the rank type. When this variable takes a single
+    level (i.e., only one type of ranking), `dyRank()` should be used
+    instead.
+
+### Estimated rating
+
+``` r
+# obtain rating 
+rating_hier <- get_rating(fit_hier)
+
+## example visualization 
+drivers_use <- c("Michael Schumacher", "Lewis Hamilton", "Sebastian Vettel", "Kimi Räikkönen")
+
+## plot rating with plot_rating()
+gg <- plot_rating(rating_hier, facet = TRUE, ncol = 4, driver_name = drivers_use)
+gg + ylim(-2, 8) + xlim(1984, 2019)
+```
+
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
