@@ -17,7 +17,7 @@ jobs:
           install.packages("remotes")
           remotes::install_local(".")
           remotes::install_cran("rmarkdown")
-		  remotes::install_github("soichiroy/dyRank", dependencies = TRUE)
+          remotes::install_github("soichiroy/dyRank", dependencies = TRUE)
         shell: Rscript {0}
       - name: Render README
         run: Rscript -e 'rmarkdown::render("README.Rmd", output_format = "md_document")'
