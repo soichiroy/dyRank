@@ -21,10 +21,11 @@ Imports:
     coda,
     future,
     furrr, 
+    ggplot2,
     purrr, 
     dplyr,
     tibble,
-    pgdraw,
+    tidyr,
     rlang
     
     
