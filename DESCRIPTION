@@ -24,7 +24,6 @@ Imports:
     ggplot2,
     purrr, 
     dplyr,
-    tibble,
     tidyr,
     rlang,
     MASS
