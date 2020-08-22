@@ -1,6 +1,6 @@
 Package: dyRank
 Title: Hierarchical Dynamic Ranking 
-Version: 0.0.1
+Version: 0.0.1.1
 Authors@R: 
     person(given = "Soichiro",
            family = "Yamauchi",

@@ -5,7 +5,7 @@
 \title{Hierarchical Dynamic Rating Estimation for Ranked Data}
 \usage{
 hdyRank(data, var_rank, var_player, var_match, var_time, var_rank_type,
-  driver_fix, mcmc = 100, burnin = 10, thin = 1, n_chains = 3)
+  driver_fix, mcmc = 100, burnin = 10, thin = 1, truncation = 3)
 }
 \arguments{
 \item{data}{A data frame of \code{tibble} class.}
@@ -27,6 +27,8 @@ hdyRank(data, var_rank, var_player, var_match, var_time, var_rank_type,
 \item{burnin}{Burnin periods.}
 
 \item{thin}{Thinning.}
+
+\item{truncation}{A truncation parameter.}
 
 \item{n_chains}{The number of MCMC chains.}
 }
