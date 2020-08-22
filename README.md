@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.org/soichiroy/dyRank.svg?branch=master)](https://travis-ci.org/soichiroy/dyRank)
+[![R build
+status](https://github.com/soichiroy/dyRank/workflows/R-CMD-check/badge.svg)](https://github.com/soichiroy/dyRank/actions)
 <!-- badges: end -->
 
 The goal of `dyRank` is to estimate the dynamic rating of items, players
