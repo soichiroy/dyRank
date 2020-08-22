@@ -9,6 +9,17 @@ plot_rating(obj, facet = FALSE, driver_name = NULL, y_label = "",
 }
 \arguments{
 \item{obj}{An output}
+
+\item{facet}{A boolean argument. If set \code{TRUE}, \code{facet_wrap} is added to the plot.
+If \code{FALSE}, the function returns a list of individual plots.}
+
+\item{driver_name}{A vector of player names. If left \code{NULL}, all players are used to generate a plot.}
+
+\item{y_label}{A character for the y axis.}
+
+\item{x_label}{A character for the x axis.}
+
+\item{ncol}{The number of columns in the facet. This argument is ignored when \code{facet = FALSE}.}
 }
 \description{
 Plot rating estimates

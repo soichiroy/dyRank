@@ -6,6 +6,12 @@
 \usage{
 get_mcmc(obj)
 }
+\arguments{
+\item{obj}{A \code{dyRank.fit} object, which is an output of \code{\link{dyRank}} or \code{\link{hdyRank}}.}
+}
+\value{
+A list of mcmc objects that are compatible with functions from \code{coda} package.
+}
 \description{
 Obtain MCMC object of rating parameters
 }

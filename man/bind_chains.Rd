@@ -6,6 +6,16 @@
 \usage{
 bind_chains(obj, summarize = FALSE)
 }
+\arguments{
+\item{obj}{A list of \code{dyRank.fit} objects, which are typically outputs from \code{\link{dyRank}} or 
+\code{\link{hdyRank}}.}
+
+\item{summarize}{A boolean argument. If \code{TRUE}, the function returns the summary of the posterior.}
+}
+\value{
+When \code{summarize = FALSE}, it returns a list of \code{mcmc.list} objects. 
+When \code{summarize = TRUE}, it returns a \code{dyRank.summary} object.
+}
 \description{
 Bind Multiple Chains
 }
