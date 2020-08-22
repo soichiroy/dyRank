@@ -123,3 +123,53 @@ plot_rating <- function(obj,
   
   return(g)
 }
+
+
+#' Bind Multiple Chains 
+#' @export
+#' @importFrom coda mcmc.list
+#' @importFrom purrr map map_dfr
+#' @importFrom dplyr %>% filter pull as_tibble mutate select everything
+bind_chains <- function(obj, summarize = FALSE) {
+
+	if (length(obj) == 1) stop("Use get_mcmc() instead.")
+	
+	
+	## transform estimates to a list of mcmc obj 
+	obj_mcmc <- map(obj, ~get_mcmc(.x))
+	n_drivers <- length(obj_mcmc[[1]])
+
+	## get mcmc list for each driver 
+	out_mcmc_list <- map(1:n_drivers, function(i) {
+		mcmc.list(map(obj_mcmc, ~.x[[i]]))
+	}) 
+	
+	
+	## summarize estimates a la get_rating()
+	if (isTRUE(summarize)) {
+		# summary estimate 
+		est_all <- map_dfr(1:n_drivers, function(i) {
+		  mat <- do.call(rbind, out_mcmc_list[[i]])  
+		  mat_summary <- apply(mat, 2, quantile, prob = c(0.025, 0.05, 0.5, 0.95, 0.975))
+	
+		  driver <- obj[[1]]$data$dat_ref %>% filter(id_driver == i) %>% 
+		              pull(drivers) %>% unique()
+		  years  <- obj[[1]]$data$dat_ref %>% filter(id_driver == i) %>% 
+		              pull(years) %>% unique() %>% 
+		              as.character() %>% as.numeric()
+		  
+		  years_vec <- min(years):max(years)  
+		  est <- as_tibble(t(mat_summary)) %>% 
+		    mutate(driver = driver) %>% 
+		    mutate(year = years_vec) %>% 
+		  	select(driver, year, everything())
+		  return(est)
+		})
+	} else {
+		est_all <- out_mcmc_list
+	}
+	## class 
+	class(est_all) <- c(class(est_all), "dyRank.summary")
+	return(est_all)
+
+}
