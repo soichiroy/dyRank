@@ -4,8 +4,7 @@
 \alias{initialize_counts}
 \title{Initialize c_mk}
 \usage{
-initialize_counts(dat, lambda, race_attr, driver_attr, n_race,
-  trunc = 5L)
+initialize_counts(dat, lambda, race_attr, driver_attr, n_race, trunc = 5L)
 }
 \arguments{
 \item{dat}{A matrix}
@@ -20,3 +19,4 @@ Updated c_mk.
 \description{
 Initialize c_mk
 }
+\keyword{internal}

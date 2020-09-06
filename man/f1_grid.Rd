@@ -4,7 +4,8 @@
 \name{f1_grid}
 \alias{f1_grid}
 \title{Grid Positions of Formula 1 Grand Prix (1984 - 2019)}
-\format{A \code{tibble} data frame containing 14,037 observations iwth 8 variables.
+\format{
+A \code{tibble} data frame containing 14,037 observations iwth 8 variables.
 \describe{
   \item{Pos}{The grid position of each driver in a particular race. The top driver takes the value of 1.}
   \item{driver}{Names of drivers.}
@@ -13,7 +14,8 @@
   \item{race_id}{A unique id of races.}
   \item{GP}{Name of the race.}
   \item{rank_type}{Types of the ranking. See also datasets "f1_grid" and "f1_laptime".}
-}}
+}
+}
 \source{
 \url{https://www.formula1.com/}
 }
@@ -22,10 +24,10 @@ f1_grid
 }
 \description{
 A dataset containing the grid positions of drivers in all GP
-since 1984 (through 2019). The dataset also contains team affiliation of 
+since 1984 (through 2019). The dataset also contains team affiliation of
 drivers.
 }
 \seealso{
-\code{"f1_laptime"} and \code{"f1_race"}.
+\code{\link{f1_laptime}} and \code{\link{f1_race}}.
 }
 \keyword{data}

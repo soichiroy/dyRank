@@ -4,8 +4,18 @@
 \alias{dyRank}
 \title{Dynamic Ranking Model}
 \usage{
-dyRank(data, var_rank, var_player, var_match, var_time, driver_fix,
-  mcmc = 100, burnin = 10, thin = 1, truncation = 3)
+dyRank(
+  data,
+  var_rank,
+  var_player,
+  var_match,
+  var_time,
+  driver_fix,
+  mcmc = 100,
+  burnin = 10,
+  thin = 1,
+  truncation = 3
+)
 }
 \arguments{
 \item{data}{A data frame of \code{tibble} class.}
@@ -28,6 +38,39 @@ dyRank(data, var_rank, var_player, var_match, var_time, driver_fix,
 
 \item{truncation}{A truncation parameter.}
 }
+\value{
+\code{dyRank()} returns an object of \code{dyRank.fit} class, which is a list
+of the following elements:
+\describe{
+   \item{\code{lambda}}{A list of estimated rating parameters.
+         Rating estimates can be accessed with \code{get_rating()} or
+         \code{get_mcmc()} function.}
+   \item{\code{data}}{A transformed dataset used for estimation.}
+}
+}
 \description{
 Dynamic Ranking Model
+}
+\examples{
+set.seed(1234)
+# load data
+data("f1_race", package = "dyRank")
+
+## estimate via MCMC
+fit <- dyRank(
+    data       = f1_race,
+    var_rank   = "Pos",
+    var_player = "driver",
+    var_match  = "GP",
+    var_time   = "year",
+    driver_fix = "Timo Glock",
+    mcmc = 10, burnin = 10, thin = 1,
+    truncation = 3
+)
+
+## obtain estimated ratings
+rating <- get_rating(fit)
+}
+\seealso{
+\code{\link{get_rating}}, \code{\link{get_mcmc}}
 }

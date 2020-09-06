@@ -4,8 +4,14 @@
 \alias{plot_rating}
 \title{Plot rating estimates}
 \usage{
-plot_rating(obj, facet = FALSE, driver_name = NULL, y_label = "",
-  x_label = "", ncol = 3)
+plot_rating(
+  obj,
+  facet = FALSE,
+  driver_name = NULL,
+  y_label = "",
+  x_label = "",
+  ncol = 3
+)
 }
 \arguments{
 \item{obj}{An output}

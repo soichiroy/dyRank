@@ -4,8 +4,14 @@
 \alias{dyRank_data}
 \title{Data preparation for dynamic rating estimation}
 \usage{
-dyRank_data(data, var_rank, var_player, var_match, var_time,
-  var_rank_type = NULL)
+dyRank_data(
+  data,
+  var_rank,
+  var_player,
+  var_match,
+  var_time,
+  var_rank_type = NULL
+)
 }
 \arguments{
 \item{data}{A data frame of \code{tibble} class.}
