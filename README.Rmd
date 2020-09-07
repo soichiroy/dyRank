@@ -75,21 +75,22 @@ fit <- dyRank(
 
 **Arguments**:
 
-- `data`: A data frame that contains variables specified in `var_rank`, `var_player`, `var_match`, `var_time`.
-		This should be an object of either `data.frame` class or `tibble` class.
-+ `var_rank`: A variable name (in character) of the outcome that records the ranking. The top rank should take `1`, and all ranking values within a match (specified in `var_match`) should be consecutive. `NA` values is allowed.
-+ `var_player`: A variable name (in character) of the players.
-+ `var_match`: A variable name (in character) of the matches. The package allows for the panel strucutre, which menas that the same match can repeat over time.
-+ `var_time`: A variable name of time index.
-+ `driver_fix`: A name (or index) within `var_player` that is used as a refenrece. This should be chosen carefully, otherwise estimates will be unstable. Generally, a player who appears in multiple matches and years and who can be considered as a "middle player" is recommended as a reference.
-+ `mcmc`, `burnin` and `thin` correspond to the MCMC parameters that specify the iterations, burin periods and the thinning, respectively. Default values are set small; in practice longer values are recommended.
-+ `truncation`: A truncation parameter that takes `1` or larger. This parameter specifies if we want to ignore players who ranked `k` or lower where `k` is the vlaue of `truncation`. The value of `1` corresponds to the original Placket-Luce representation, but the estimation might not be stable when observations are dropped due to `NA` values.
+| Argument | Description |
+| -------- | ----------- |
+| `data`   | A data frame that contains variables specified in `var_rank`, `var_player`, `var_match`, `var_time`. This should be an object of either `data.frame` class or `tibble` class. |
+| `var_rank`| A variable name (in character) of the outcome that records the ranking. The top rank should take `1`, and all ranking values within a match (specified in `var_match`) should be consecutive. `NA` values is allowed. |
+| `var_player`| A variable name (in character) of the players. |
+| `var_match`| A variable name (in character) of the matches. The package allows for the panel structure, which means that the same match can repeat over time. |
+| `var_time`| A variable name of time index. |
+| `driver_fix`| A name (or index) within `var_player` that is used as a reference. This should be chosen carefully, otherwise estimates will be unstable. Generally, a player who appears in multiple matches and years and who can be considered as a "middle player" is recommended as a reference. |
+| `mcmc`, `burnin` and `thin` correspond to the MCMC parameters that specify the iterations, burin periods and the thinning, respectively. Default values are set small; in practice longer values are recommended. |
+| `truncation`| A truncation parameter that takes `1` or larger. This parameter specifies if we want to ignore players who ranked `k` or lower where `k` is the value of `truncation`. The value of `1` corresponds to the original Placket-Luce representation, but the estimation might not be stable when observations are dropped due to `NA` values. |
 
 **Return**
 
 `dyRank()` returns a list of two elements.
 
-- `lambda`: Estimated parameters stored as a list. Each element of the list corresponds to an interation
+- `lambda`: Estimated parameters stored as a list. Each element of the list corresponds to an iteration
 	of the MCMC step.
 
 ```{r}
