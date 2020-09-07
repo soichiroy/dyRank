@@ -49,7 +49,7 @@ of the following elements:
 }
 }
 \description{
-Dynamic Ranking Model
+Dynamic Placket-Luce model for dynamic rating estimation.
 }
 \examples{
 set.seed(1234)

@@ -4,6 +4,9 @@
 
 
 #' Dynamic Ranking Model
+#'
+#' Dynamic Placket-Luce model for dynamic rating estimation.
+#'
 #' @export
 #' @importFrom dplyr %>% filter pull mutate
 #' @importFrom furrr future_map future_map_dfr future_options
