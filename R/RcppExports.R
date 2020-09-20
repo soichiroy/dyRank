@@ -41,6 +41,7 @@ update_counts <- function(dat, lambda, race_attr, driver_attr, c_mk, trunc = 5L)
 #' @param dat A matrix 
 #' @param lambda A matrix of new values of λ
 #' @param race_attr A matrix of race attributes.
+#' @keywords internal
 initialize_counts <- function(dat, lambda, race_attr, driver_attr, n_race, trunc = 5L) {
     .Call(`_dyRank_initialize_counts`, dat, lambda, race_attr, driver_attr, n_race, trunc)
 }

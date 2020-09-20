@@ -3,9 +3,9 @@
 #' Race Results of Formula 1 Grand Prix (1984 - 2019)
 #'
 #' A dataset containing the final standings of drivers in all GP
-#' since 1984 (through 2019). The dataset also contains team affiliation of 
-#' drivers. 
-#' 
+#' since 1984 (through 2019). The dataset also contains team affiliation of
+#' drivers.
+#'
 #' @source \url{https://www.formula1.com/}
 #' @docType data
 #' @keywords data
@@ -19,16 +19,16 @@
 #'   \item{GP}{Name of the race.}
 #'   \item{rank_type}{Types of the ranking. See also datasets "f1_grid" and "f1_laptime".}
 #' }
-#' @seealso \code{"f1_grid"} and \code{"f1_grid"}.
+#' @seealso \code{\link{f1_grid}} and \code{\link{f1_grid}}.
 "f1_race"
 
 
 #' Grid Positions of Formula 1 Grand Prix (1984 - 2019)
 #'
 #' A dataset containing the grid positions of drivers in all GP
-#' since 1984 (through 2019). The dataset also contains team affiliation of 
-#' drivers. 
-#' 
+#' since 1984 (through 2019). The dataset also contains team affiliation of
+#' drivers.
+#'
 #' @source \url{https://www.formula1.com/}
 #' @docType data
 #' @keywords data
@@ -42,18 +42,16 @@
 #'   \item{GP}{Name of the race.}
 #'   \item{rank_type}{Types of the ranking. See also datasets "f1_grid" and "f1_laptime".}
 #' }
-#' @seealso \code{"f1_laptime"} and \code{"f1_race"}.
+#' @seealso \code{\link{f1_laptime}} and \code{\link{f1_race}}.
 "f1_grid"
-
-
 
 
 #' Lap-time Raking of Formula 1 Grand Prix (1984 - 2019)
 #'
 #' A dataset containing the ranking based on the best lap time of drivers in all GP
-#' since 1984 (through 2019). The dataset also contains team affiliation of 
-#' drivers. 
-#' 
+#' since 1984 (through 2019). The dataset also contains team affiliation of
+#' drivers.
+#'
 #' @source \url{https://www.formula1.com/}
 #' @docType data
 #' @keywords data
@@ -67,6 +65,5 @@
 #'   \item{GP}{Name of the race.}
 #'   \item{rank_type}{Types of the ranking. See also datasets "f1_grid" and "f1_race".}
 #' }
-#' @seealso \code{"f1_grid"} and \code{"f1_race"}.
+#' @seealso \code{\link{f1_grid}} and \code{\link{f1_race}}.
 "f1_laptime"
-"f1_grid"

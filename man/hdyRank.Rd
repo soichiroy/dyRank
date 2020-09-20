@@ -4,8 +4,19 @@
 \alias{hdyRank}
 \title{Hierarchical Dynamic Rating Estimation for Ranked Data}
 \usage{
-hdyRank(data, var_rank, var_player, var_match, var_time, var_rank_type,
-  driver_fix, mcmc = 100, burnin = 10, thin = 1, truncation = 3)
+hdyRank(
+  data,
+  var_rank,
+  var_player,
+  var_match,
+  var_time,
+  var_rank_type,
+  driver_fix,
+  mcmc = 100,
+  burnin = 10,
+  thin = 1,
+  truncation = 3
+)
 }
 \arguments{
 \item{data}{A data frame of \code{tibble} class.}
