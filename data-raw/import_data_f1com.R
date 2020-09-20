@@ -50,6 +50,6 @@ f1_laptime <- map(1:nrow(dat_long), function(i) {
 ##
 ## save data
 ##
-usethis::use_data(f1_race)
-usethis::use_data(f1_grid)
+usethis::use_data(f1_race, overwrite = TRUE)
+usethis::use_data(f1_grid, overwrite = TRUE)
 usethis::use_data(f1_laptime, overwrite = TRUE)
