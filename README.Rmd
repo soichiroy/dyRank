@@ -83,7 +83,9 @@ fit <- dyRank(
 | `var_match`| A variable name (in character) of the matches. The package allows for the panel structure, which means that the same match can repeat over time. |
 | `var_time`| A variable name of time index. |
 | `driver_fix`| A name (or index) within `var_player` that is used as a reference. This should be chosen carefully, otherwise estimates will be unstable. Generally, a player who appears in multiple matches and years and who can be considered as a "middle player" is recommended as a reference. |
-| `mcmc`, `burnin` and `thin` correspond to the MCMC parameters that specify the iterations, burin periods and the thinning, respectively. Default values are set small; in practice longer values are recommended. |
+| `mcmc`, | Number of MCMC iterations. | 
+| `burnin`| Burn-in periods. `mcmc + burnin` iterations will run.| 
+|`thin`   | Thinning periods. |
 | `truncation`| A truncation parameter that takes `1` or larger. This parameter specifies if we want to ignore players who ranked `k` or lower where `k` is the value of `truncation`. The value of `1` corresponds to the original Placket-Luce representation, but the estimation might not be stable when observations are dropped due to `NA` values. |
 
 **Return**
