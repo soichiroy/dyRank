@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // dyRank_gibbs
 void dyRank_gibbs(std::vector<arma::mat>& lambda, std::vector<arma::mat>& c_mk, const std::vector<arma::imat>& dat, const arma::imat& race_attr, const std::vector<arma::ivec>& driver_attr, const int& id_driver_fix, const int& trunc);
 RcppExport SEXP _dyRank_dyRank_gibbs(SEXP lambdaSEXP, SEXP c_mkSEXP, SEXP datSEXP, SEXP race_attrSEXP, SEXP driver_attrSEXP, SEXP id_driver_fixSEXP, SEXP truncSEXP) {

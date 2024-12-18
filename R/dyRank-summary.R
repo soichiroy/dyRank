@@ -4,16 +4,12 @@
 #' @export
 #' @param obj A fitted object from \code{dyRank()}.
 #' @importFrom dplyr %>% filter pull as_tibble mutate 
-#' @importFrom future plan multiprocess 
+#' @importFrom future plan multicore multisession
 #' @importFrom purrr map 
 #' @importFrom furrr future_map_dfr 
 #' @importFrom stats quantile
 get_rating <- function(obj) {
   if (!("dyRank.fit" %in% class(obj))) stop("Not a supported input.")
-
-	
-	# register the parallel computing 
-	# plan(multiprocess)
 	
 	# summary estimate 
 	est_all <- future_map_dfr(1:obj$data$n_driver, function(i) {

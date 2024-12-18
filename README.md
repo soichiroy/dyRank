@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/soichiroy/dyRank.svg?branch=master)](https://travis-ci.org/soichiroy/dyRank)
 [![R build
 status](https://github.com/soichiroy/dyRank/workflows/R-CMD-check/badge.svg)](https://github.com/soichiroy/dyRank/actions)
 <!-- badges: end -->
@@ -49,40 +47,38 @@ set.seed(1234)
 
 ## estimate via MCMC
 fit <- dyRank(
-    data       = f1_race,
-    var_rank   = "Pos",           
-    var_player = "driver",
-    var_match  = "GP",
-    var_time   = "year",
-    driver_fix = "Timo Glock",
-    mcmc = 100, burnin = 10, thin = 1,
-    truncation = 3
+ data       = f1_race,
+ var_rank   = "Pos",           
+ var_player = "driver",
+ var_match  = "GP",
+ var_time   = "year",
+ driver_fix = "Timo Glock",
+ mcmc = 100, burnin = 10, thin = 1,
+ truncation = 3
 )
 ```
 
 **Arguments**:
 
-| Argument     | Description                                                                                                                                                                                                                                                                                                                               |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data`       | A data frame that contains variables specified in `var_rank`, `var_player`, `var_match`, `var_time`. This should be an object of either `data.frame` class or `tibble` class.                                                                                                                                                             |
-| `var_rank`   | A variable name (in character) of the outcome that records the ranking. The top rank should take `1`, and all ranking values within a match (specified in `var_match`) should be consecutive. `NA` values is allowed.                                                                                                                     |
-| `var_player` | A variable name (in character) of the players.                                                                                                                                                                                                                                                                                            |
-| `var_match`  | A variable name (in character) of the matches. The package allows for the panel structure, which means that the same match can repeat over time.                                                                                                                                                                                          |
-| `var_time`   | A variable name of time index.                                                                                                                                                                                                                                                                                                            |
-| `driver_fix` | A name (or index) within `var_player` that is used as a reference. This should be chosen carefully, otherwise estimates will be unstable. Generally, a player who appears in multiple matches and years and who can be considered as a “middle player” is recommended as a reference.                                                     |
-| `mcmc`,      | Number of MCMC iterations.                                                                                                                                                                                                                                                                                                                |
-| `burnin`     | Burn-in periods. `mcmc + burnin` iterations will run.                                                                                                                                                                                                                                                                                     |
-| `thin`       | Thinning periods.                                                                                                                                                                                                                                                                                                                         |
+| Argument | Description |
+|----|----|
+| `data` | A data frame that contains variables specified in `var_rank`, `var_player`, `var_match`, `var_time`. This should be an object of either `data.frame` class or `tibble` class. |
+| `var_rank` | A variable name (in character) of the outcome that records the ranking. The top rank should take `1`, and all ranking values within a match (specified in `var_match`) should be consecutive. `NA` values is allowed. |
+| `var_player` | A variable name (in character) of the players. |
+| `var_match` | A variable name (in character) of the matches. The package allows for the panel structure, which means that the same match can repeat over time. |
+| `var_time` | A variable name of time index. |
+| `driver_fix` | A name (or index) within `var_player` that is used as a reference. This should be chosen carefully, otherwise estimates will be unstable. Generally, a player who appears in multiple matches and years and who can be considered as a “middle player” is recommended as a reference. |
+| `mcmc`, | Number of MCMC iterations. |
+| `burnin` | Burn-in periods. `mcmc + burnin` iterations will run. |
+| `thin` | Thinning periods. |
 | `truncation` | A truncation parameter that takes `1` or larger. This parameter specifies if we want to ignore players who ranked `k` or lower where `k` is the value of `truncation`. The value of `1` corresponds to the original Placket-Luce representation, but the estimation might not be stable when observations are dropped due to `NA` values. |
 
 **Return**
 
 `dyRank()` returns a list of two elements.
 
-  - `lambda`: Estimated parameters stored as a list. Each element of the
-    list corresponds to an iteration of the MCMC step.
-
-<!-- end list -->
+- `lambda`: Estimated parameters stored as a list. Each element of the
+  list corresponds to an iteration of the MCMC step.
 
 ``` r
 ## total number of elements
@@ -98,9 +94,7 @@ length(fit$lambda[[1]][[1]])
 #> [1] 2
 ```
 
-  - `data` returns the list of formatted datasets.
-
-<!-- end list -->
+- `data` returns the list of formatted datasets.
 
 ``` r
 ## formatted data used for the estimation
@@ -108,16 +102,16 @@ dim(fit$data$dat_ref)
 #> [1] 9285    6
 
 slice_head(as_tibble(fit$data$dat_ref), n = 5) %>%
-    knitr::kable(digits = 3)
+ knitr::kable(digits = 3)
 ```
 
-| years | races  | drivers         | rank\_type | id\_time | id\_driver |
-| :---- | :----- | :-------------- | ---------: | -------: | ---------: |
-| 1984  | brazil | Alain Prost     |          1 |        1 |          4 |
-| 1984  | brazil | Keke Rosberg    |          1 |        1 |        106 |
-| 1984  | brazil | Elio de Angelis |          1 |        1 |         43 |
-| 1984  | brazil | Eddie Cheever   |          1 |        1 |         41 |
-| 1984  | brazil | Patrick Tambay  |          1 |        1 |        153 |
+| years | races  | drivers         | rank_type | id_time | id_driver |
+|:------|:-------|:----------------|----------:|--------:|----------:|
+| 1984  | brazil | Alain Prost     |         1 |       1 |         4 |
+| 1984  | brazil | Keke Rosberg    |         1 |       1 |       106 |
+| 1984  | brazil | Elio de Angelis |         1 |       1 |        43 |
+| 1984  | brazil | Eddie Cheever   |         1 |       1 |        41 |
+| 1984  | brazil | Patrick Tambay  |         1 |       1 |       153 |
 
 ``` r
 
@@ -137,16 +131,16 @@ rating <- get_rating(fit)
 
 ## view the estimates
 slice_head(as_tibble(rating), n = 5) %>%
-    knitr::kable(digits = 3)
+ knitr::kable(digits = 3)
 ```
 
-| driver        | year |    2.5% |      5% |     50% |     95% |   97.5% |
-| :------------ | ---: | ------: | ------: | ------: | ------: | ------: |
-| Adrian Campos | 1987 | \-1.667 | \-1.582 | \-0.591 |   0.207 |   0.437 |
-| Adrian Campos | 1988 | \-2.285 | \-1.992 | \-0.777 |   0.342 |   0.423 |
-| Adrian Sutil  | 2007 | \-1.876 | \-1.633 | \-0.682 | \-0.175 | \-0.113 |
-| Adrian Sutil  | 2008 | \-1.363 | \-1.281 | \-0.516 |   0.203 |   0.301 |
-| Adrian Sutil  | 2009 | \-0.813 | \-0.638 |   0.096 |   0.726 |   0.802 |
+| driver        | year |   2.5% |     5% |    50% |    95% |  97.5% |
+|:--------------|-----:|-------:|-------:|-------:|-------:|-------:|
+| Adrian Campos | 1987 | -1.667 | -1.582 | -0.591 |  0.207 |  0.437 |
+| Adrian Campos | 1988 | -2.285 | -1.992 | -0.777 |  0.342 |  0.423 |
+| Adrian Sutil  | 2007 | -1.876 | -1.633 | -0.682 | -0.175 | -0.113 |
+| Adrian Sutil  | 2008 | -1.363 | -1.281 | -0.516 |  0.203 |  0.301 |
+| Adrian Sutil  | 2009 | -0.813 | -0.638 |  0.096 |  0.726 |  0.802 |
 
 ``` r
 ## example visualization
@@ -164,7 +158,6 @@ gg + ylim(-2, 8) + xlim(1984, 2019)
 ``` r
 ## load coda package
 require(coda)
-#> Loading required package: coda
 
 ## convert estimates to the MCMC object
 mcmc_obj <- get_mcmc(fit)
@@ -179,7 +172,7 @@ plot(mcmc_obj[[1]])
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
-#### Checking covergence with Geweke statistics
+#### Checking convergence with Geweke statistics
 
 ``` r
 ## plot the autocorrelation
@@ -201,39 +194,41 @@ coda::geweke.plot(mcmc_obj[[1]])
 `dyRank` package provides a function `bind_chains()` to work with
 multiple chains.
 
-  - Store multiple chains as a list
-  - `bind_chains()` with `summarize = FALSE` behaves like `get_mcmc()`
-  - `bind_chains()` with `summarize = TRUE` behaves like `get_rating()`
-
-<!-- end list -->
+- Store multiple chains as a list
+- `bind_chains()` with `summarize = FALSE` behaves like `get_mcmc()`
+- `bind_chains()` with `summarize = TRUE` behaves like `get_rating()`
 
 ``` r
 ## load additional package for parallel
-require(furrr)
+library(furrr)
 
 ## setup parallel
-plan(multiprocess)
+if (future::supportsMulticore()) {
+  future::plan(future::multicore)
+} else {
+  future::plan(future::multisession)
+}
 
 ## run with multiple chains and store output as a list
 n_chains <- 3
 set.seed(1234)
 fit_nchains <- future_map(1:n_chains, function(chains) {
-    fit_tmp <- dyRank(
-        data       = f1_race,
-        var_rank   = "Pos",           
-        var_player = "driver",
-        var_match  = "GP",
-        var_time   = "year",
-        driver_fix = "Timo Glock",
-        mcmc = 100, burnin = 10, thin = 1,
-        truncation = 3
-    )
-}, .options = future_options(seed = TRUE))
+ fit_tmp <- dyRank(
+  data       = f1_race,
+  var_rank   = "Pos",           
+  var_player = "driver",
+  var_match  = "GP",
+  var_time   = "year",
+  driver_fix = "Timo Glock",
+  mcmc = 100, burnin = 10, thin = 1,
+  truncation = 3
+ )
+}, .options = furrr_options(seed = TRUE))
 ```
 
 #### Gelman-Rubin statistic
 
-Multiple chains are requires to comute the Gelman-Rubin statistics
+Multiple chains are requires to compute the Gelman-Rubin statistics
 (`gelman.diag()` and `gelman.plot()` in `coda` package). `bind_chains()`
 returns a list of `mcmc.list` object where each element of the returned
 list corresponds to a `mcmc.list` object for each player (i.e., each
@@ -284,25 +279,24 @@ f1_all <- bind_rows(f1_race, f1_grid, f1_laptime)
 ## fit hierarhcal model
 set.seed(1234)
 fit_hier <- hdyRank(
-    data       = f1_all,
-    var_rank   = "Pos",           
-    var_player = "driver",
-    var_match  = "GP",
-    var_time   = "year",
-    var_rank_type = "rank_type",
-    driver_fix = "Timo Glock",
-    mcmc = 100, burnin = 10, thin = 1,
-    truncation = 5
+ data       = f1_all,
+ var_rank   = "Pos",           
+ var_player = "driver",
+ var_match  = "GP",
+ var_time   = "year",
+ var_rank_type = "rank_type",
+ driver_fix = "Timo Glock",
+ mcmc = 100, burnin = 10, thin = 1,
+ truncation = 5
 )
 ```
 
 **Arguments**
 
-  - `hdyRank()` inherits all the arguments specified in `dyRank()`.
-  - It takes the additional argument `var_rank_type`: A variable name
-    (in character) of the rank type. When this variable takes a single
-    level (i.e., only one type of ranking), `dyRank()` should be used
-    instead.
+- `hdyRank()` inherits all the arguments specified in `dyRank()`.
+- It takes the additional argument `var_rank_type`: A variable name (in
+  character) of the rank type. When this variable takes a single level
+  (i.e., only one type of ranking), `dyRank()` should be used instead.
 
 ### Estimated rating
 

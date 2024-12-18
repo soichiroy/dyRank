@@ -12,10 +12,10 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
+
 # dyRank: Dynamic Rating Estimation for Ranked Data
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/soichiroy/dyRank.svg?branch=master)](https://travis-ci.org/soichiroy/dyRank)
 [![R build status](https://github.com/soichiroy/dyRank/workflows/R-CMD-check/badge.svg)](https://github.com/soichiroy/dyRank/actions)
 <!-- badges: end -->
 
@@ -31,9 +31,7 @@ You can install the development version from [GitHub](https://github.com/) with:
 devtools::install_github("soichiroy/dyRank")
 ```
 
-
 ## Example: Single Ranking Type
-
 
 As an example, we use `f1_race` data in the `dyRank` package.
 
@@ -44,16 +42,13 @@ require(tidyverse)
 require(knitr)
 ```
 
-
 ```{R}
 ## load data
 ## see ?f1_race for the details of this dataset
 data("f1_race", package = "dyRank")
 ```
 
-
 ### Estimate rating via `dyRank()`
-
 
 ```{r eval=TRUE, cache=TRUE}
 ## set seed
@@ -61,17 +56,16 @@ set.seed(1234)
 
 ## estimate via MCMC
 fit <- dyRank(
-	data       = f1_race,
-	var_rank   = "Pos",           
-	var_player = "driver",
-	var_match  = "GP",
-	var_time   = "year",
-	driver_fix = "Timo Glock",
-	mcmc = 100, burnin = 10, thin = 1,
-	truncation = 3
+ data       = f1_race,
+ var_rank   = "Pos",           
+ var_player = "driver",
+ var_match  = "GP",
+ var_time   = "year",
+ driver_fix = "Timo Glock",
+ mcmc = 100, burnin = 10, thin = 1,
+ truncation = 3
 )
 ```
-
 
 **Arguments**:
 
@@ -83,8 +77,8 @@ fit <- dyRank(
 | `var_match`| A variable name (in character) of the matches. The package allows for the panel structure, which means that the same match can repeat over time. |
 | `var_time`| A variable name of time index. |
 | `driver_fix`| A name (or index) within `var_player` that is used as a reference. This should be chosen carefully, otherwise estimates will be unstable. Generally, a player who appears in multiple matches and years and who can be considered as a "middle player" is recommended as a reference. |
-| `mcmc`, | Number of MCMC iterations. | 
-| `burnin`| Burn-in periods. `mcmc + burnin` iterations will run.| 
+| `mcmc`, | Number of MCMC iterations. |
+| `burnin`| Burn-in periods. `mcmc + burnin` iterations will run.|
 |`thin`   | Thinning periods. |
 | `truncation`| A truncation parameter that takes `1` or larger. This parameter specifies if we want to ignore players who ranked `k` or lower where `k` is the value of `truncation`. The value of `1` corresponds to the original Placket-Luce representation, but the estimation might not be stable when observations are dropped due to `NA` values. |
 
@@ -93,7 +87,7 @@ fit <- dyRank(
 `dyRank()` returns a list of two elements.
 
 - `lambda`: Estimated parameters stored as a list. Each element of the list corresponds to an iteration
-	of the MCMC step.
+ of the MCMC step.
 
 ```{r}
 ## total number of elements
@@ -105,6 +99,7 @@ length(fit$lambda[[1]])
 ## each element of lambda[[k]] is an estimate for drivers
 length(fit$lambda[[1]][[1]])
 ```
+
 - `data` returns the list of formatted datasets.
 
 ```{r}
@@ -112,7 +107,7 @@ length(fit$lambda[[1]][[1]])
 dim(fit$data$dat_ref)
 
 slice_head(as_tibble(fit$data$dat_ref), n = 5) %>%
-	knitr::kable(digits = 3)
+ knitr::kable(digits = 3)
 
 
 ## global information
@@ -122,14 +117,13 @@ fit$data$n_race
 
 ### Obtaining the estimated rating via `get_rating()`
 
-
 ```{r}
 ## get the summary of rating
 rating <- get_rating(fit)
 
 ## view the estimates
 slice_head(as_tibble(rating), n = 5) %>%
-	knitr::kable(digits = 3)
+ knitr::kable(digits = 3)
 ```
 
 ```{r, fig.width=7, fig.height=3}
@@ -141,9 +135,7 @@ gg <- plot_rating(rating, facet = TRUE, ncol = 4, driver_name = drivers_use)
 gg + ylim(-2, 8) + xlim(1984, 2019)
 ```
 
-
 ### Assessing convergence via `get_mcmc()` and `coda` package
-
 
 ```{r}
 ## load coda package
@@ -159,8 +151,7 @@ names(mcmc_obj)[1]
 plot(mcmc_obj[[1]])
 ```
 
-
-#### Checking covergence with Geweke statistics
+#### Checking convergence with Geweke statistics
 
 ```{r fig.height=4, fig.width=7}
 ## plot the autocorrelation
@@ -170,16 +161,13 @@ coda::autocorr.plot(mcmc_obj[[1]])
 coda::geweke.plot(mcmc_obj[[1]])
 ```
 
-
 ### Running with Multiple Chains
-
 
 `dyRank` package provides a function `bind_chains()` to work with multiple chains.
 
 - Store multiple chains as a list
 - `bind_chains()` with `summarize = FALSE` behaves like `get_mcmc()`
 - `bind_chains()` with `summarize = TRUE` behaves like `get_rating()`
-
 
 ```{r cache=TRUE, message=FALSE, warning=FALSE}
 ## load additional package for parallel
@@ -196,25 +184,26 @@ if (future::supportsMulticore()) {
 n_chains <- 3
 set.seed(1234)
 fit_nchains <- future_map(1:n_chains, function(chains) {
-	fit_tmp <- dyRank(
-		data       = f1_race,
-		var_rank   = "Pos",           
-		var_player = "driver",
-		var_match  = "GP",
-		var_time   = "year",
-		driver_fix = "Timo Glock",
-		mcmc = 100, burnin = 10, thin = 1,
-		truncation = 3
-	)
-}, .options = future_options(seed = TRUE))
+ fit_tmp <- dyRank(
+  data       = f1_race,
+  var_rank   = "Pos",           
+  var_player = "driver",
+  var_match  = "GP",
+  var_time   = "year",
+  driver_fix = "Timo Glock",
+  mcmc = 100, burnin = 10, thin = 1,
+  truncation = 3
+ )
+}, .options = furrr_options(seed = TRUE))
 ```
 
 #### Gelman-Rubin statistic
 
-Multiple chains are requires to comute the Gelman-Rubin statistics (`gelman.diag()` and `gelman.plot()` in `coda` package).
-`bind_chains()` returns a list of `mcmc.list` object where each element of the returned list corresponds to a `mcmc.list` object for each player (i.e., each level of `var_player`).
-
-
+Multiple chains are requires to compute the Gelman-Rubin statistics
+(`gelman.diag()` and `gelman.plot()` in `coda` package).
+`bind_chains()` returns a list of `mcmc.list` object where each element of the
+returned list corresponds to a `mcmc.list` object for each player (i.e., each
+level of `var_player`).
 
 ```{r, fig.height=4, fig.width=7}
 ## combine estimates into a single mcmc.list
@@ -226,11 +215,11 @@ coda::gelman.plot(m_list[[1]])
 
 #### Estimated rating (all chains combined)
 
-
-We can obtain the summary statistics of the estimated rating by specifying `summarize = TRUE` option in `bind_chains()` function.
-As `bind_chains()` with `summarize = TRUE` option returns an object of `dyRank.summary` class,
-a user can use `plot_raing()` function to visualize the estimates as in the case of a single chain.
-
+We can obtain the summary statistics of the estimated rating by specifying
+`summarize = TRUE` option in `bind_chains()` function.
+As `bind_chains()` with `summarize = TRUE` option returns an object of
+`dyRank.summary` class, a user can use `plot_raing()` function to visualize the
+estimates as in the case of a single chain.
 
 ```{r}
 ## summarise estimates by combining chains
@@ -242,7 +231,6 @@ class(m_summary)
 
 ## Example: Multiple Ranking Types
 
-
 ```{r}
 ## load additional data
 ## see ?f1_grid and ?f1_laptime for the details
@@ -253,38 +241,32 @@ data("f1_laptime", package = "dyRank")
 f1_all <- bind_rows(f1_race, f1_grid, f1_laptime)
 ```
 
-
-
 ### Estimate rating via `hdyRank()`
-
-
 
 ```{r cache=TRUE}
 ## fit hierarhcal model
 set.seed(1234)
 fit_hier <- hdyRank(
-	data       = f1_all,
-	var_rank   = "Pos",           
-	var_player = "driver",
-	var_match  = "GP",
-	var_time   = "year",
-	var_rank_type = "rank_type",
-	driver_fix = "Timo Glock",
-	mcmc = 100, burnin = 10, thin = 1,
-	truncation = 5
+ data       = f1_all,
+ var_rank   = "Pos",           
+ var_player = "driver",
+ var_match  = "GP",
+ var_time   = "year",
+ var_rank_type = "rank_type",
+ driver_fix = "Timo Glock",
+ mcmc = 100, burnin = 10, thin = 1,
+ truncation = 5
 )
 ```
-
 
 **Arguments**
 
 - `hdyRank()` inherits all the arguments specified in `dyRank()`.
-- It takes the additional argument `var_rank_type`: A variable name (in character) of the rank type. When this variable takes a single level (i.e., only one type of ranking), `dyRank()` should be used instead.
-
-
+- It takes the additional argument `var_rank_type`: A variable name (in
+  character) of the rank type. When this variable takes a single level (i.e., only
+  one type of ranking), `dyRank()` should be used instead.
 
 ### Estimated rating
-
 
 ```{r, fig.width=7, fig.height=3}
 # obtain rating
