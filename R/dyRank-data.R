@@ -1,7 +1,5 @@
-
-
-
 #' Data preparation for dynamic rating estimation 
+#' 
 #' @keywords internal
 #' @inheritParams dyRank
 #' @importFrom dplyr %>% pull tibble mutate mutate_all select arrange summarise group_by

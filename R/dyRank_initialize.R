@@ -1,9 +1,5 @@
-
-
-## initialize inputs 
-# 
-
 #' Function to initialize parameters
+#' 
 #' @param data An output of \code{dyRank_data()}.
 #' @importFrom purrr map map2 
 initialize_params <- function(data) {
@@ -31,8 +27,8 @@ initialize_params <- function(data) {
   return(init)
 }
 
-
 #' Draw initial lambda
+#' 
 #' @importFrom stats rnorm 
 #' @keywords internal
 #' @param n_tenure The length of a tenure of a driver.
@@ -52,6 +48,7 @@ draw_lambda0 <- function(n_tenure, s0 = 0.1, delta = 0.1) {
 }
 
 #' Draw initial lambda_type
+#' 
 #' @keywords internal
 #' @param lambda_mean A vector of prior means with length corresponding to the length of a tenure.
 #' @param sigma Variace of the emission equation.
@@ -70,8 +67,6 @@ draw_lambda_th <- function(lambda_mean, sigma) {
     
   return(lambda)
 }
-
-
 
 #' parameter initialization for dyRank()
 #' @keywords internal

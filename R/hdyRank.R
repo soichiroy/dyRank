@@ -7,7 +7,6 @@
 #' @export
 #' @importFrom dplyr %>% filter pull as_tibble mutate
 #' @importFrom furrr future_map future_map_dfr future_options
-#' @importFrom future plan multiprocess
 #' @importFrom coda as.mcmc as.mcmc.list 
 #' @importFrom purrr map 
 #' @importFrom rlang .data

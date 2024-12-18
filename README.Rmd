@@ -183,10 +183,14 @@ coda::geweke.plot(mcmc_obj[[1]])
 
 ```{r cache=TRUE, message=FALSE, warning=FALSE}
 ## load additional package for parallel
-require(furrr)
+library(furrr)
 
 ## setup parallel
-plan(multiprocess)
+if (future::supportsMulticore()) {
+  future::plan(future::multicore)
+} else {
+  future::plan(future::multisession)
+}
 
 ## run with multiple chains and store output as a list
 n_chains <- 3

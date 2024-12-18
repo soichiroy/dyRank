@@ -1,13 +1,8 @@
-
-
-
-
-
 #' Dynamic Ranking Model
 #' @export
 #' @importFrom dplyr %>% filter pull mutate
 #' @importFrom furrr future_map future_map_dfr future_options
-#' @importFrom future plan multiprocess
+#' @importFrom future plan multicore multisession
 #' @importFrom coda as.mcmc as.mcmc.list
 #' @importFrom purrr map
 #' @importFrom rlang .data
@@ -67,7 +62,6 @@ dyRank <- function(
     var_match = var_match, var_time = var_time,
     var_rank_type = var_rank_type
   )
-
 
   ##
   ## driver_fix
