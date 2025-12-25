@@ -11,7 +11,7 @@
 #' @param var_player A variable name of the players.
 #' @param var_match A variable name of matches.
 #' @param var_time A variable name of time index.
-#' @param driver_fix A name of the player used as a refenrece.
+#' @param driver_fix A name of the player used as a reference.
 #' @param mcmc MCMC iterations.
 #' @param burnin Burnin periods.
 #' @param thin Thinning.

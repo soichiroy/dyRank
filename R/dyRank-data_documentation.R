@@ -9,7 +9,7 @@
 #' @source \url{https://www.formula1.com/}
 #' @docType data
 #' @keywords data
-#' @format A \code{tibble} data frame containing 14,037 observations iwth 8 variables.
+#' @format A \code{tibble} data frame containing 14,037 observations with 8 variables.
 #' \describe{
 #'   \item{Pos}{The final status of each driver in a particular race. The top driver takes the value of 1.}
 #'   \item{driver}{Names of drivers.}
@@ -19,7 +19,7 @@
 #'   \item{GP}{Name of the race.}
 #'   \item{rank_type}{Types of the ranking. See also datasets "f1_grid" and "f1_laptime".}
 #' }
-#' @seealso \code{\link{f1_grid}} and \code{\link{f1_grid}}.
+#' @seealso \code{\link{f1_grid}} and \code{\link{f1_laptime}}.
 "f1_race"
 
 
@@ -32,7 +32,7 @@
 #' @source \url{https://www.formula1.com/}
 #' @docType data
 #' @keywords data
-#' @format A \code{tibble} data frame containing 14,037 observations iwth 8 variables.
+#' @format A \code{tibble} data frame containing 14,037 observations with 8 variables.
 #' \describe{
 #'   \item{Pos}{The grid position of each driver in a particular race. The top driver takes the value of 1.}
 #'   \item{driver}{Names of drivers.}
@@ -46,7 +46,7 @@
 "f1_grid"
 
 
-#' Lap-time Raking of Formula 1 Grand Prix (1984 - 2019)
+#' Lap-time Ranking of Formula 1 Grand Prix (1984 - 2019)
 #'
 #' A dataset containing the ranking based on the best lap time of drivers in all GP
 #' since 1984 (through 2019). The dataset also contains team affiliation of
@@ -55,7 +55,7 @@
 #' @source \url{https://www.formula1.com/}
 #' @docType data
 #' @keywords data
-#' @format A \code{tibble} data frame containing 14,037 observations iwth 8 variables.
+#' @format A \code{tibble} data frame containing 14,037 observations with 8 variables.
 #' \describe{
 #'   \item{Pos}{The ranking of each driver based on the best lap time in a particular race. The top driver takes the value of 1.}
 #'   \item{driver}{Names of drivers.}

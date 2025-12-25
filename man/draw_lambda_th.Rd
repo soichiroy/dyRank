@@ -9,7 +9,7 @@ draw_lambda_th(lambda_mean, sigma)
 \arguments{
 \item{lambda_mean}{A vector of prior means with length corresponding to the length of a tenure.}
 
-\item{sigma}{Variace of the emission equation.}
+\item{sigma}{Variance of the emission equation.}
 }
 \description{
 Draw initial lambda_type

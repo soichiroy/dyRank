@@ -1,6 +1,6 @@
 #' Hierarchical Dynamic Rating Estimation for Ranked Data
 #' 
-#' \code{hdyRank()} implements the hierarhical dynamic Plackett-Luce model
+#' \code{hdyRank()} implements the hierarchical dynamic Plackett-Luce model
 #'  for estimating the rating based on rank-ordered data. 
 #'  Different from \code{dyRank()}, \code{hdyRank()} can handle multiple types of ranking data.
 #'  

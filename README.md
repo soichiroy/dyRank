@@ -63,7 +63,7 @@ fit <- dyRank(
 | Argument | Description |
 |----|----|
 | `data` | A data frame that contains variables specified in `var_rank`, `var_player`, `var_match`, `var_time`. This should be an object of either `data.frame` class or `tibble` class. |
-| `var_rank` | A variable name (in character) of the outcome that records the ranking. The top rank should take `1`, and all ranking values within a match (specified in `var_match`) should be consecutive. `NA` values is allowed. |
+| `var_rank` | A variable name (in character) of the outcome that records the ranking. The top rank should take `1`, and all ranking values within a match (specified in `var_match`) should be consecutive. `NA` values are allowed. |
 | `var_player` | A variable name (in character) of the players. |
 | `var_match` | A variable name (in character) of the matches. The package allows for the panel structure, which means that the same match can repeat over time. |
 | `var_time` | A variable name of time index. |
@@ -71,7 +71,7 @@ fit <- dyRank(
 | `mcmc`, | Number of MCMC iterations. |
 | `burnin` | Burn-in periods. `mcmc + burnin` iterations will run. |
 | `thin` | Thinning periods. |
-| `truncation` | A truncation parameter that takes `1` or larger. This parameter specifies if we want to ignore players who ranked `k` or lower where `k` is the value of `truncation`. The value of `1` corresponds to the original Placket-Luce representation, but the estimation might not be stable when observations are dropped due to `NA` values. |
+| `truncation` | A truncation parameter that takes `1` or larger. This parameter specifies if we want to ignore players who ranked `k` or lower where `k` is the value of `truncation`. The value of `1` corresponds to the original Plackett-Luce representation, but the estimation might not be stable when observations are dropped due to `NA` values. |
 
 **Return**
 
@@ -158,6 +158,7 @@ gg + ylim(-2, 8) + xlim(1984, 2019)
 ``` r
 ## load coda package
 require(coda)
+#> Loading required package: coda
 
 ## convert estimates to the MCMC object
 mcmc_obj <- get_mcmc(fit)
@@ -228,7 +229,7 @@ fit_nchains <- future_map(1:n_chains, function(chains) {
 
 #### Gelman-Rubin statistic
 
-Multiple chains are requires to compute the Gelman-Rubin statistics
+Multiple chains are required to compute the Gelman-Rubin statistics
 (`gelman.diag()` and `gelman.plot()` in `coda` package). `bind_chains()`
 returns a list of `mcmc.list` object where each element of the returned
 list corresponds to a `mcmc.list` object for each player (i.e., each
@@ -249,7 +250,7 @@ coda::gelman.plot(m_list[[1]])
 We can obtain the summary statistics of the estimated rating by
 specifying `summarize = TRUE` option in `bind_chains()` function. As
 `bind_chains()` with `summarize = TRUE` option returns an object of
-`dyRank.summary` class, a user can use `plot_raing()` function to
+`dyRank.summary` class, a user can use `plot_rating()` function to
 visualize the estimates as in the case of a single chain.
 
 ``` r
@@ -276,7 +277,7 @@ f1_all <- bind_rows(f1_race, f1_grid, f1_laptime)
 ### Estimate rating via `hdyRank()`
 
 ``` r
-## fit hierarhcal model
+## fit hierarchical model
 set.seed(1234)
 fit_hier <- hdyRank(
  data       = f1_all,

@@ -3,9 +3,9 @@
 \docType{data}
 \name{f1_laptime}
 \alias{f1_laptime}
-\title{Lap-time Raking of Formula 1 Grand Prix (1984 - 2019)}
+\title{Lap-time Ranking of Formula 1 Grand Prix (1984 - 2019)}
 \format{
-A \code{tibble} data frame containing 14,037 observations iwth 8 variables.
+A \code{tibble} data frame containing 14,037 observations with 8 variables.
 \describe{
   \item{Pos}{The ranking of each driver based on the best lap time in a particular race. The top driver takes the value of 1.}
   \item{driver}{Names of drivers.}

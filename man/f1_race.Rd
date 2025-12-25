@@ -5,7 +5,7 @@
 \alias{f1_race}
 \title{Race Results of Formula 1 Grand Prix (1984 - 2019)}
 \format{
-A \code{tibble} data frame containing 14,037 observations iwth 8 variables.
+A \code{tibble} data frame containing 14,037 observations with 8 variables.
 \describe{
   \item{Pos}{The final status of each driver in a particular race. The top driver takes the value of 1.}
   \item{driver}{Names of drivers.}
@@ -28,6 +28,6 @@ since 1984 (through 2019). The dataset also contains team affiliation of
 drivers.
 }
 \seealso{
-\code{\link{f1_grid}} and \code{\link{f1_grid}}.
+\code{\link{f1_grid}} and \code{\link{f1_laptime}}.
 }
 \keyword{data}

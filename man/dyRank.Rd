@@ -28,7 +28,7 @@ dyRank(
 
 \item{var_time}{A variable name of time index.}
 
-\item{driver_fix}{A name of the player used as a refenrece.}
+\item{driver_fix}{A name of the player used as a reference.}
 
 \item{mcmc}{MCMC iterations.}
 

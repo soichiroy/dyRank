@@ -5,7 +5,7 @@
 \alias{f1_grid}
 \title{Grid Positions of Formula 1 Grand Prix (1984 - 2019)}
 \format{
-A \code{tibble} data frame containing 14,037 observations iwth 8 variables.
+A \code{tibble} data frame containing 14,037 observations with 8 variables.
 \describe{
   \item{Pos}{The grid position of each driver in a particular race. The top driver takes the value of 1.}
   \item{driver}{Names of drivers.}

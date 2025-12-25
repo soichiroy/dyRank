@@ -9,9 +9,9 @@ draw_lambda0(n_tenure, s0 = 0.1, delta = 0.1)
 \arguments{
 \item{n_tenure}{The length of a tenure of a driver.}
 
-\item{s0}{Varianve of the initial condition. Mean of the initial condition is set to 0.}
+\item{s0}{Variance of the initial condition. Mean of the initial condition is set to 0.}
 
-\item{delta}{Variace of the innovation.}
+\item{delta}{Variance of the innovation.}
 }
 \description{
 Draw initial lambda

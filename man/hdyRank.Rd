@@ -31,7 +31,7 @@ hdyRank(
 
 \item{var_rank_type}{A variable name of rank types.}
 
-\item{driver_fix}{A name of the player used as a refenrece.}
+\item{driver_fix}{A name of the player used as a reference.}
 
 \item{mcmc}{MCMC iterations.}
 
@@ -42,7 +42,7 @@ hdyRank(
 \item{truncation}{A truncation parameter.}
 }
 \description{
-\code{hdyRank()} implements the hierarhical dynamic Plackett-Luce model
+\code{hdyRank()} implements the hierarchical dynamic Plackett-Luce model
  for estimating the rating based on rank-ordered data. 
  Different from \code{dyRank()}, \code{hdyRank()} can handle multiple types of ranking data.
 }
