@@ -72,7 +72,7 @@ Rcpp::List dyRank_cpp(
     );
     
     // save
-    if (iter > burnin && (iter % thin == 0)) {
+    if (iter >= burnin && ((iter - burnin) % thin == 0)) {
       save_lambda.push_back(lambda);
     }
 

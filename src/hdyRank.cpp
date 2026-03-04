@@ -98,7 +98,7 @@ Rcpp::List hdyRank_cpp(
     );
     
     // save
-    if (iter > burnin && (iter % thin == 0)) {
+    if (iter >= burnin && ((iter - burnin) % thin == 0)) {
       save_lambda.push_back(lambda);
       save_sigma.push_back(sigma);
       save_lambda_mean.push_back(lambda_mean);      
